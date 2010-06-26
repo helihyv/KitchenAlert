@@ -1,10 +1,12 @@
 /**************************************************************************
 
-        KitchenAlert v.0.01
+        KitchenAlert
 
         Copyright (C) 2010  Heli Hyvättinen
 
-        This program is free software: you can redistribute it and/or modify
+        This file is part of KitchenAlert.
+
+        Kitchen Alert is free software: you can redistribute it and/or modify
         it under the terms of the GNU General Public License as published by
         the Free Software Foundation, either version 3 of the License, or
         (at your option) any later version.
@@ -33,9 +35,11 @@
 #include "createtimersequencedialog.h"
 
 
+
 #include <QDebug>
 #include <QMessageBox>
-#include <QMediaPlayer>
+
+
 
 KitchenAlertMainWindow::KitchenAlertMainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -167,9 +171,11 @@ void KitchenAlertMainWindow::alert(QModelIndex indexOfAlerter)
     //The alert sound is played
 
 
+
+
         //TODO
 
-
+    alertSound_.play();
 
 }
 
@@ -186,6 +192,7 @@ void KitchenAlertMainWindow::snooze()
 
     model_.snoozeTimer(selectedRow());
     ui->SnoozeButton->setDisabled(true);
+    alertSound_.stop();
 
 }
 
@@ -193,14 +200,16 @@ void KitchenAlertMainWindow::restart()
 {
 
     model_.startTimer(selectedRow());
-      ui->SnoozeButton->setDisabled(true);
+    ui->SnoozeButton->setDisabled(true);
+    alertSound_.stop();
 
 }
 
 void KitchenAlertMainWindow::stop()
 {
     model_.stopTimer(selectedRow());
-      ui->SnoozeButton->setDisabled(true);
+    ui->SnoozeButton->setDisabled(true);
+    alertSound_.stop();
 }
 
 QModelIndex KitchenAlertMainWindow::selectedRow()

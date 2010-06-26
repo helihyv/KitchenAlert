@@ -24,67 +24,49 @@
 
 
 
-#ifndef TIMER_H
-#define TIMER_H
+#ifndef ALERTSOUND_H
+#define ALERTSOUND_H
 
 #include <QObject>
-#include <QString>
-#include <QTimer>
-
-
-#include <QModelIndex>
 
 
 
-/*! The timer class of KitchenAlert'
+ #include <Phonon>
+
+
+
+/*! Class for playing the alert sound'
 
   @author Heli Hyvättinen
   @date 2010-06-26
   @version 0.09
 
-The timer class of KitchenAlert.
+Class for playing (and stopping) the alert sound.
 
 */
 
-class Timer : public QObject
+class AlertSound : public QObject
 {
     Q_OBJECT
 public:
-    explicit Timer(QObject *parent = 0);
-
-    int getOriginalTimeInSeconds();
-    void setOriginalTimeInSeconds(int seconds);
-
-    int getRemainingTimeInSeconds();
-
-    QString getAlertText();
-    void setAlertText(QString text);
-
-    bool isAlerting();
-
+    explicit AlertSound(QObject *parent = 0);
 
 signals:
 
-    void remainingTimeChanged();
-    void alert(QModelIndex indexOfAlerter);
-
 public slots:
-    void secondPassed();
-    void start();
+    /*! Plays the sound */
+    void play();
+
+    /*! Stops the sound from playing */
     void stop();
-    void snooze();
-
-
 
 private:
-    int _originalTime; //seconds!
-    int _remainingTime; //seconds!
-    QString _alertText;
-    QTimer _actualTimer;
-    bool alerting_;
 
-    QModelIndex whereAmI();
+
+
+    Phonon::MediaObject *pSound_;
+
 
 };
 
-#endif // TIMER_H
+#endif // ALERTSOUND_H

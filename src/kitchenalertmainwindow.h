@@ -1,9 +1,11 @@
 /**************************************************************************
-        KitchenAlert v.0.01
+        KitchenAlert
 
         Copyright (C) 2010  Heli Hyvättinen
 
-        This program is free software: you can redistribute it and/or modify
+        This file is part of KitchenAlert.
+
+        Kitchen Alert is free software: you can redistribute it and/or modify
         it under the terms of the GNU General Public License as published by
         the Free Software Foundation, either version 3 of the License, or
         (at your option) any later version.
@@ -27,11 +29,23 @@
 #include "timer.h"
 #include "currentalertstablemodel.h"
 #include <QItemSelection>
+#include "alertsound.h"
 
 
 namespace Ui {
     class KitchenAlertMainWindow;
 }
+
+
+/*! The main window class of KitchenAlert'
+
+  @author Heli Hyvättinen
+  @date 2010-06-26
+  @version 0.09
+
+Operates the UI.
+
+*/
 
 class KitchenAlertMainWindow : public QMainWindow
 {
@@ -67,6 +81,8 @@ private:
     CurrentAlertsTableModel model_;
 
     QModelIndex selectedRow();
+
+    AlertSound alertSound_;
 };
 
 #endif // KITCHENALERTMAINWINDOW_H

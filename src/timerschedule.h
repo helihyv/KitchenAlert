@@ -1,11 +1,9 @@
 /**************************************************************************
-        KitchenAlert
+        KitchenAlert v.0.01
 
         Copyright (C) 2010  Heli Hyvättinen
 
-        This file is part of KitchenAlert.
-
-        Kitchen Alert is free software: you can redistribute it and/or modify
+        This program is free software: you can redistribute it and/or modify
         it under the terms of the GNU General Public License as published by
         the Free Software Foundation, either version 3 of the License, or
         (at your option) any later version.
@@ -23,46 +21,22 @@
 
 
 
-#ifndef CHOOSETIMERSEQUENCEDIALOG_H
-#define CHOOSETIMERSEQUENCEDIALOG_H
 
-#include <QDialog>
-#include "timerschedule.h"
+#ifndef TIMERSCHEDULE_H
+#define TIMERSCHEDULE_H
 
-namespace Ui {
-    class ChooseTimerSequenceDialog;
-}
+#include <QObject>
 
-/*! Class for the dialog for choosing timers'
-
-  @author Heli Hyvättinen
-  @date 2010-06-26
-  @version 0.09
-
-Does nothing but show the dialog now, useless.
-
-*/
-
-
-class ChooseTimerSequenceDialog : public QDialog
+class TimerSchedule : public QObject
 {
     Q_OBJECT
-
 public:
-    explicit ChooseTimerSequenceDialog(QWidget *parent = 0);
-    ~ChooseTimerSequenceDialog();
+    explicit TimerSchedule(QObject *parent = 0);
 
+signals:
 
-    //Tarvitsee funktion joka palauttaa ajastinlistan!
+public slots:
 
-    TimerSchedule giveTimers();
-
-
-protected:
-    void changeEvent(QEvent *e);
-
-private:
-    Ui::ChooseTimerSequenceDialog *ui;
 };
 
-#endif // CHOOSETIMERSEQUENCEDIALOG_H
+#endif // TIMERSCHEDULE_H

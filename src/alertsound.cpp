@@ -1,9 +1,7 @@
 /**************************************************************************
-        KitchenAlert
+        This file is part of KitchenAlert v.0.09
 
         Copyright (C) 2010  Heli Hyvättinen
-
-        This file is part of KitchenAlert.
 
         Kitchen Alert is free software: you can redistribute it and/or modify
         it under the terms of the GNU General Public License as published by
@@ -23,46 +21,30 @@
 
 
 
-#ifndef CHOOSETIMERSEQUENCEDIALOG_H
-#define CHOOSETIMERSEQUENCEDIALOG_H
 
-#include <QDialog>
-#include "timerschedule.h"
+#include "alertsound.h"
 
-namespace Ui {
-    class ChooseTimerSequenceDialog;
+#include <QDebug>
+
+
+
+AlertSound::AlertSound(QObject *parent) :
+    QObject(parent)
+{
+
+
+    pSound_ = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource("/home/user/MyDocs/KitchenAlertTestSound1.wav"));
 }
 
-/*! Class for the dialog for choosing timers'
-
-  @author Heli Hyvättinen
-  @date 2010-06-26
-  @version 0.09
-
-Does nothing but show the dialog now, useless.
-
-*/
-
-
-class ChooseTimerSequenceDialog : public QDialog
+void AlertSound::play()
 {
-    Q_OBJECT
 
-public:
-    explicit ChooseTimerSequenceDialog(QWidget *parent = 0);
-    ~ChooseTimerSequenceDialog();
+    pSound_->play();
+    qDebug() << "Sound should be played now";
+}
 
+void AlertSound::stop()
+{
 
-    //Tarvitsee funktion joka palauttaa ajastinlistan!
-
-    TimerSchedule giveTimers();
-
-
-protected:
-    void changeEvent(QEvent *e);
-
-private:
-    Ui::ChooseTimerSequenceDialog *ui;
-};
-
-#endif // CHOOSETIMERSEQUENCEDIALOG_H
+    pSound_->stop();
+}
