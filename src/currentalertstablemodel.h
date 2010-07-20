@@ -28,6 +28,7 @@
 #define CURRENTALERTSTABLEMODEL_H
 
 #include <QAbstractTableModel>
+#include <QMainWindow>
 #include "timer.h"
 
 
@@ -54,7 +55,11 @@ public:
 
     QVariant data(const QModelIndex &index, int role) const;
 
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+
     QModelIndex giveIndexForTimer(Timer * ptimer);
+
+    bool isThisTimerAlerting(QModelIndex index);
 
 signals:
 
@@ -68,6 +73,9 @@ public slots:
     void snoozeTimer(QModelIndex index);
     void stopTimer(QModelIndex index);
 
+
+    void setUpdateViewOnChanges(bool update);
+
 private:
     QList <Timer * > currentTimers_;
 
@@ -75,6 +83,10 @@ private:
     static const int alertTextColumnNumber_ = 0;
     static const int timeRemainingColumnNumber_ = 1;
     static const int statusColumnNumber_ = 2;
+
+
+
+    bool updateViewOnChanges_;
 
 };
 

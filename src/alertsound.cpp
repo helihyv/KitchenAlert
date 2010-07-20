@@ -25,6 +25,7 @@
 #include "alertsound.h"
 
 #include <QDebug>
+#include <QSettings>
 
 
 
@@ -32,8 +33,24 @@ AlertSound::AlertSound(QObject *parent) :
     QObject(parent)
 {
 
+    defaultsound_ = ":/defaultsound";
+    QString filename;
 
-    pSound_ = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource("/home/user/MyDocs/KitchenAlertTestSound1.wav"));
+    QSettings settings("KitchenAlert","KitchenAlert");
+
+    settings.clear(); //REMOVE THIS AFTER TESTING!!!!!!
+
+    bool useDefaultSound = settings.value("UseDefaultSound",true).toBool();
+    qDebug() << "In AlertSound constructor UseDefaultSound is " << useDefaultSound;
+    if (useDefaultSound == true)
+    {
+        filename = defaultsound_;
+    }
+    else
+    {
+        filename = settings.value("soundfile",defaultsound_).toString();
+    }
+    pSound_ = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(filename));
 }
 
 void AlertSound::play()
@@ -47,4 +64,19 @@ void AlertSound::stop()
 {
 
     pSound_->stop();
+}
+
+void AlertSound::setSound(QString filename)
+{
+   QSettings settings("KitchenAlert","KitchenAlert");
+   settings.setValue("UseDefaultSound",false);
+   settings.setValue("soundfile",filename);
+   pSound_->setCurrentSource(filename);
+}
+
+void AlertSound::setDefaultSound()
+{
+    QSettings settings ("KitchenAlert","KitchenAlert");
+    settings.setValue("UseDefaultSound",true);
+    pSound_->setCurrentSource(defaultsound_);
 }

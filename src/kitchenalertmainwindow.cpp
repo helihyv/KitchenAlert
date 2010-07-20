@@ -31,12 +31,16 @@
 #include <QString>
 #include <QList>
 
-#include "choosetimersequencedialog.h"
+
 #include "createtimersequencedialog.h"
+#include "selectsounddialog.h"
 
 
 
 #include <QDebug>
+
+#include <QAction>
+#include <QMenuBar>
 #include <QMessageBox>
 
 
@@ -47,19 +51,25 @@ KitchenAlertMainWindow::KitchenAlertMainWindow(QWidget *parent) :
     {
     ui->setupUi(this);
 
-  connect(ui->LoadTimerScheduleButton, SIGNAL (pressed()), this, SLOT (openTimerSequence()));
+
+
+
   connect(ui->CreateNewScheduleButton, SIGNAL (pressed()), this, SLOT (newTimerSequence()));
+
+
+  //alerts' tableview setup
+
 
   ui->ComingAlertsTableView->setModel(&model_);
   ui->ComingAlertsTableView->setSelectionMode(QAbstractItemView::SingleSelection);
   ui->ComingAlertsTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+  ui->ComingAlertsTableView->horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
+  ui->ComingAlertsTableView->horizontalHeader()->hide();
 
 
   //Buttons used to reacting an alarm are hidden by default
 
-  ui->DoneButton->setDisabled(true);
-  ui->SnoozeButton->setDisabled(true);
-  ui->RestartButton->setDisabled(true);
+  disableSelectionDependentButtons();
 
 
   connect(ui->ComingAlertsTableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),this,SLOT(timerSelected(QItemSelection,QItemSelection)));
@@ -68,7 +78,15 @@ KitchenAlertMainWindow::KitchenAlertMainWindow(QWidget *parent) :
   connect(ui->RestartButton,SIGNAL(clicked()),this,SLOT(restart()));
   connect(ui->SnoozeButton,SIGNAL(clicked()),this, SLOT(snooze()));
 
+  // menu setup
 
+  QAction * p_SelectSoundAction = new QAction(tr("Select alert sound"),this);
+  connect(p_SelectSoundAction, SIGNAL(triggered()), this, SLOT(openSelectSoundDialog()));
+  menuBar()->addAction(p_SelectSoundAction);
+
+  QAction * p_AboutAction = new QAction(tr("About"),this);
+  connect(p_AboutAction,SIGNAL(triggered()),this,SLOT(openAbout()));
+  menuBar()->addAction(p_AboutAction);
     }
 
 KitchenAlertMainWindow::~KitchenAlertMainWindow()
@@ -90,14 +108,6 @@ void KitchenAlertMainWindow::changeEvent(QEvent *e)
 
 }
 
-void KitchenAlertMainWindow::openTimerSequence()
-{
-    ChooseTimerSequenceDialog opendialog;
-    opendialog.exec();
-
-
-
-}
 
 void KitchenAlertMainWindow::newTimerSequence()
 {
@@ -113,18 +123,19 @@ void KitchenAlertMainWindow::newTimerSequence()
        Timer* timer1 = alltimers.at(0); // take first timer (currently the only one!)
 
 
-
-
-//       ui->nextAlertText->setText( timer1->getAlertText());
-
-
        timer1->start();
        connect(timer1,SIGNAL(alert(QModelIndex)),this,SLOT(alert(QModelIndex)));
 
 
 
         model_.addTimers(alltimers); // give timers to the model
-//        ui->ComingAlertsTableView->update();
+
+ //       ui->ComingAlertsTableView->resizeColumnsToContents();
+
+
+        //Disable buttons, as selection is cleared when view is refreshed to show the new timer
+
+        disableSelectionDependentButtons();
 
 
 
@@ -136,21 +147,11 @@ void KitchenAlertMainWindow::newTimerSequence()
 }
 
 
-void KitchenAlertMainWindow::updateTime(int seconds)
-{
 
 
-//    ui->hoursLcdNumber->display(seconds/360);
-//    ui->minutesLcdNumber->display((seconds%360)/60);
-//    ui->secondsLcdNumber->display((seconds%60));
-
-
-
-}
 
 void KitchenAlertMainWindow::alert(QModelIndex indexOfAlerter)
 {
- //   QMessageBox::information ( NULL, "KitchenAlert","Alert!!!");
 
     // The program is brought to front and activated when alerted
 
@@ -162,7 +163,6 @@ void KitchenAlertMainWindow::alert(QModelIndex indexOfAlerter)
     qDebug() << "Should be selected now";
 
 
-
     //Snooze button is enabled
 
 
@@ -170,27 +170,40 @@ void KitchenAlertMainWindow::alert(QModelIndex indexOfAlerter)
 
     //The alert sound is played
 
-
-
-
-        //TODO
-
     alertSound_.play();
 
 }
 
 
-void KitchenAlertMainWindow::timerSelected(QItemSelection,QItemSelection)
+void KitchenAlertMainWindow::timerSelected(QItemSelection selected,QItemSelection deselected)
 {
     ui->DoneButton->setEnabled(true);
     ui->RestartButton->setEnabled(true);
+
+
+    //enabled only when alerting
+    QModelIndexList indexes = selected.indexes();
+
+    //the selection model only allows selecting one row at the time & we only need to know the row, so we can just take the first one
+    QModelIndex index = indexes.value(0);
+    if (index.isValid())
+    {
+        if (model_.isThisTimerAlerting(index) == true)
+        {
+             ui->SnoozeButton->setEnabled(true);
+        }
+        else ui->SnoozeButton->setDisabled(true);
+    }
 
 }
 
 void KitchenAlertMainWindow::snooze()
 {
-
-    model_.snoozeTimer(selectedRow());
+    QModelIndex row = selectedRow();
+    if (row.isValid()) //If there was no row selected invalid row was returned
+    {
+        model_.snoozeTimer(row);
+    }
     ui->SnoozeButton->setDisabled(true);
     alertSound_.stop();
 
@@ -198,8 +211,12 @@ void KitchenAlertMainWindow::snooze()
 
 void KitchenAlertMainWindow::restart()
 {
+    QModelIndex row = selectedRow(); //If there was no row selected invalid row was returned
+    if (row.isValid())
+    {
 
-    model_.startTimer(selectedRow());
+        model_.startTimer(row);
+    }
     ui->SnoozeButton->setDisabled(true);
     alertSound_.stop();
 
@@ -207,7 +224,11 @@ void KitchenAlertMainWindow::restart()
 
 void KitchenAlertMainWindow::stop()
 {
-    model_.stopTimer(selectedRow());
+    QModelIndex row = selectedRow();
+    if (row.isValid()) //If there was no row selected invalid row was returned
+    {
+        model_.stopTimer(row);
+    }
     ui->SnoozeButton->setDisabled(true);
     alertSound_.stop();
 }
@@ -217,7 +238,58 @@ QModelIndex KitchenAlertMainWindow::selectedRow()
     QModelIndexList chosenRows = ui->ComingAlertsTableView->selectionModel()->selectedRows();
 
     //The selection mode used allows only one row to be selected at time, so we just take the first
-    //There are indexes for all coloumns in the row in the list, but as we only use the row, it does not matter which one we take
+    //There are indexes for all columns in the row in the list, but as we only use the row, it does not matter which one we take
 
-    return chosenRows.takeFirst();
+    return chosenRows.value(0); //gives an invalid QModelIndex if the list is empty
+}
+
+void KitchenAlertMainWindow::openSelectSoundDialog()
+{
+    SelectSoundDialog dialog;
+   if ( dialog.exec() == QDialog::Accepted) //if user pressed OK
+    {
+       if (dialog.isDefaultSoundChecked() == true)
+           alertSound_.setDefaultSound();
+       else
+        alertSound_.setSound(dialog.getSoundFileName());
+
+   //opening a dialog clears the selection so the selection dependen buttons must be disabled
+    }
+    disableSelectionDependentButtons();
+}
+
+void KitchenAlertMainWindow::openAbout()
+{
+    QMessageBox::about(this,tr("About KitchenAlert"),tr("<p>Version 0.09"
+                                                        "<p>Copyright &copy; Heli Hyv&auml;ttinen 2010"
+                                                         "<p>License: General Public License v3"
+                                                         "<p>Bugtracker: https://garage.maemo.org/projects/kitchenalert/"));
+}
+
+bool KitchenAlertMainWindow::event(QEvent *event)
+{
+    QMainWindow::event(event);
+
+    switch (event->type())
+    {
+        case QEvent::WindowActivate:
+
+            model_.setUpdateViewOnChanges(true);
+              break;
+
+       case QEvent::WindowDeactivate:
+            model_.setUpdateViewOnChanges(false);
+            break;
+
+       default:
+            break;
+    }
+}
+
+void KitchenAlertMainWindow::disableSelectionDependentButtons()
+{
+    ui->DoneButton->setDisabled(true);
+    ui->SnoozeButton->setDisabled(true);
+    ui->RestartButton->setDisabled(true);
+
 }

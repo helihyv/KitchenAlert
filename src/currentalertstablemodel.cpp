@@ -35,6 +35,8 @@
 CurrentAlertsTableModel::CurrentAlertsTableModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
+
+    updateViewOnChanges_ = true;
 }
 
 
@@ -143,7 +145,10 @@ QVariant CurrentAlertsTableModel::data(const QModelIndex &index, int role) const
 
                 case statusColumnNumber_:
 
-                    return QVariant();  //TO BE REPLACED WITH SENDING STATUS !
+                    if (currentTimers_.at(index.row())->isAlerting() == true)
+                        return QString("ALERT!");
+
+                    else return QString();
 
 
             }
@@ -154,7 +159,7 @@ QVariant CurrentAlertsTableModel::data(const QModelIndex &index, int role) const
 
             //No need to care for the column number, all have the same color
 
-            if (currentTimers_.at(index.row())->getRemainingTimeInSeconds() > 0)
+            if (currentTimers_.at(index.row())->isAlerting() == false)
                 return QBrush (QColor(Qt::white));
             else return QBrush (QColor(Qt::red)); //change this to black if backgroundrole starts to work!
 
@@ -168,7 +173,7 @@ QVariant CurrentAlertsTableModel::data(const QModelIndex &index, int role) const
 
             qDebug() << "BackgroundRole asked";
 
-            if (currentTimers_.at(index.row())->getRemainingTimeInSeconds() > 0)
+            if (currentTimers_.at(index.row())->isAlerting())
             {
                 qDebug() << "black background";
                 return QBrush (QColor(Qt::black));
@@ -206,41 +211,83 @@ void CurrentAlertsTableModel::addTimers(QList <Timer *> timers)
 
 void CurrentAlertsTableModel::refreshTimeColumn()
 {
-    qDebug() << "Refresh time column";
+    if (updateViewOnChanges_ == true) //Only update GUI if active to save battery
+    {
+        emit dataChanged(createIndex(0,1),createIndex(rowCount(QModelIndex())-1,1));  //Entire time column refreshed
+        qDebug() << "Refresh time column";
 
+    }
 
-
-    emit dataChanged(createIndex(0,1),createIndex(rowCount(QModelIndex())-1,1));  //Entire time column refreshed
 
 }
 
 
 void CurrentAlertsTableModel::startTimer(QModelIndex index)
 {
-    currentTimers_.at(index.row())->start();
-    refreshTimeColumn();
+    Timer * ptimer = currentTimers_.value(index.row());
+    if (ptimer != NULL)
+    {
+        ptimer->start();
+        refreshTimeColumn();
+    }
 }
 
 void CurrentAlertsTableModel::stopTimer(QModelIndex index)
 {
-  currentTimers_.at(index.row())->stop();
-   refreshTimeColumn();
+    Timer * ptimer = currentTimers_.value(index.row());
+    if (ptimer != NULL)
+    {
+        ptimer->stop();
+        refreshTimeColumn();
+    }
 }
 
 void CurrentAlertsTableModel::snoozeTimer(QModelIndex index)
 {
-
-    currentTimers_.at(index.row())->snooze();
-    refreshTimeColumn();
+    Timer * ptimer = currentTimers_.value(index.row());
+    if (ptimer != NULL)
+    {
+        ptimer->snooze();
+        refreshTimeColumn();
+    }
 }
 
 QModelIndex CurrentAlertsTableModel::giveIndexForTimer(Timer * ptimer)
 {
     int row = currentTimers_.indexOf(ptimer);
-    if (row < -1) // if not found
+    if (row <= -1) // if not found
         return QModelIndex(); //return invalid index
 
 
     return createIndex(row,0); //return index to the timer row's first column
 
+}
+
+
+QVariant CurrentAlertsTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    //Reimplemented from QAbsractTableModel
+    //No headers wanted so we just return an empty QVariant
+    return QVariant();
+}
+
+
+void CurrentAlertsTableModel::setUpdateViewOnChanges(bool update)
+{
+    updateViewOnChanges_ = update;
+    if (update == true)
+        reset(); //Refresh view to catch up with past changes
+}
+
+bool CurrentAlertsTableModel::isThisTimerAlerting(QModelIndex index)
+{
+    if (index.isValid())
+    {
+        if (currentTimers_.at(index.row())->isAlerting())
+        {
+            return true;
+        }
+
+    }
+    return false;
 }

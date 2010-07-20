@@ -31,8 +31,7 @@
 
 
 
- #include <Phonon>
-
+#include <Phonon>
 
 
 /*! Class for playing the alert sound'
@@ -60,11 +59,17 @@ public slots:
     /*! Stops the sound from playing */
     void stop();
 
+    /*! Changes the sound file (both current and saved in settings) */
+    void setSound(QString filename);
+
+    void setDefaultSound();
+
 private:
 
 
 
     Phonon::MediaObject *pSound_;
+    QString defaultsound_;
 
 
 };

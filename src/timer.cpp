@@ -68,7 +68,7 @@ void Timer::setAlertText(QString text)
 void Timer::secondPassed()
 {
     _remainingTime--;
-    emit remainingTimeChanged();
+
 
     if (_remainingTime == 0)
     {
@@ -77,12 +77,15 @@ void Timer::secondPassed()
         qDebug() << "alerting";
     }
 
+    emit remainingTimeChanged(); //after alerting in case of alert so that status gets updated immediately
 }
 
 void Timer::start()
 {
     _remainingTime = _originalTime;
     _actualTimer.start();
+
+    alerting_ = false;
 
 }
 
@@ -92,13 +95,14 @@ void Timer::stop()
     _actualTimer.stop();
     _remainingTime = 0; //Stopped timer shows 00:00:00 (which unfortunately makes it red...)
 
-
+    alerting_ = false;
 }
 
 void Timer::snooze()
 {
     _remainingTime = 120;
 
+    alerting_ = false;
 }
 
 

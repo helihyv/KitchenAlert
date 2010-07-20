@@ -13,22 +13,23 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         kitchenalertmainwindow.cpp \
-    choosetimersequencedialog.cpp \
     createtimersequencedialog.cpp \
     timer.cpp \
     currentalertstablemodel.cpp \
-    alertsound.cpp
+    alertsound.cpp \
+    selectsounddialog.cpp
 
 HEADERS  += kitchenalertmainwindow.h \
-    choosetimersequencedialog.h \
     createtimersequencedialog.h \
     timer.h \
     currentalertstablemodel.h \
-    alertsound.h
+    alertsound.h \
+    selectsounddialog.h
 
 FORMS    += kitchenalertmainwindow.ui \
-    choosetimersequencedialog.ui \
-    createtimersequencedialog.ui
+    createtimersequencedialog.ui \
+    selectsounddialog.ui \
+    kitchenalertmainwindow.ui
 
 CONFIG += mobility
 MOBILITY =
@@ -42,4 +43,5 @@ symbian {
     TARGET.EPOCHEAPSIZE = 0x020000 0x800000
 }
 
-RESOURCES +=
+RESOURCES += \
+    kitchenalert.qrc

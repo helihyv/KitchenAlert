@@ -60,20 +60,26 @@ public:
 
 
 public slots:
-    void openTimerSequence();
     void newTimerSequence();
+    void openSelectSoundDialog();
+    void openAbout();
 
-    void updateTime(int seconds);
+
     void alert(QModelIndex indexOfAlerted);
-    void timerSelected(QItemSelection,QItemSelection);
+    void timerSelected(QItemSelection selected,QItemSelection deselected);
     void snooze();
     void restart();
     void stop();
 
+
 protected:
     void changeEvent(QEvent *e);
+    bool event(QEvent *event);
+
+    void disableSelectionDependentButtons();
 
 private:
+
     Ui::KitchenAlertMainWindow *ui;
 
     QList <Timer *> currentTimers_;
@@ -83,6 +89,8 @@ private:
     QModelIndex selectedRow();
 
     AlertSound alertSound_;
+
+
 };
 
 #endif // KITCHENALERTMAINWINDOW_H
