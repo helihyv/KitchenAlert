@@ -33,12 +33,12 @@ AlertSound::AlertSound(QObject *parent) :
     QObject(parent)
 {
 
-    defaultsound_ = ":/defaultsound";
+    defaultsound_ = "/opt/KitchenAlert/06capemaycloser_modifiedlouder.mp3";
     QString filename;
 
     QSettings settings("KitchenAlert","KitchenAlert");
 
-    settings.clear(); //REMOVE THIS AFTER TESTING!!!!!!
+   // settings.clear(); //REMOVE THIS AFTER TESTING!!!!!!
 
     bool useDefaultSound = settings.value("UseDefaultSound",true).toBool();
     qDebug() << "In AlertSound constructor UseDefaultSound is " << useDefaultSound;

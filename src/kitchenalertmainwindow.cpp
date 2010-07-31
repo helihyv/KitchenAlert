@@ -260,10 +260,10 @@ void KitchenAlertMainWindow::openSelectSoundDialog()
 
 void KitchenAlertMainWindow::openAbout()
 {
-    QMessageBox::about(this,tr("About KitchenAlert"),tr("<p>Version 0.09"
+    QMessageBox::about(this,tr("About KitchenAlert"),tr("<p>Version 0.1"
                                                         "<p>Copyright &copy; Heli Hyv&auml;ttinen 2010"
                                                          "<p>License: General Public License v3"
-                                                         "<p>Bugtracker: https://garage.maemo.org/projects/kitchenalert/"));
+                                                         "<p>Bugtracker and project page: https://garage.maemo.org/projects/kitchenalert/"));
 }
 
 bool KitchenAlertMainWindow::event(QEvent *event)

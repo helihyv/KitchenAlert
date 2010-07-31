@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Create timer (sequence)</string>
+   <string>KitchenAlert - Create timer </string>
   </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">

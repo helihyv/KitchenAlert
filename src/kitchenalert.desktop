@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Name=KitchenAlert
+Exec=/usr/bin/KitchenAlert
+Icon=KA_icon64
+Categories=Utility;
+X-Window-Icon=KA_icon64
+X-Osso-Type=application/x-executable
+Comment=Timer application with multiple timers

@@ -91,7 +91,7 @@
          <item>
           <widget class="QPushButton" name="CreateNewScheduleButton">
            <property name="text">
-            <string>New timer schedule</string>
+            <string>New timer</string>
            </property>
           </widget>
          </item>

@@ -39,8 +39,8 @@ namespace Ui {
 /*! Class for the dialog for creating timers'
 
   @author Heli Hyvättinen
-  @date 2010-06-26
-  @version 0.09
+  @date 2010-07-20
+  @version 0.1
 
 Class for the dialog for creating timers
 

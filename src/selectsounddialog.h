@@ -33,6 +33,16 @@ namespace Ui {
     class SelectSoundDialog;
 }
 
+/*! The class for sound selection dialog of KitchenAlert'
+
+  @author Heli Hyvättinen
+  @date 2010-07-20
+  @version 0.1
+
+The class for sound selection dialog in KitchenAlert.
+
+*/
+
 class SelectSoundDialog : public QDialog
 {
     Q_OBJECT
