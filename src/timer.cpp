@@ -40,6 +40,7 @@ Timer::Timer(QObject *parent) :
 }
 
 
+
 int Timer::getOriginalTimeInSeconds()
 {
     return _originalTime;
@@ -74,7 +75,7 @@ void Timer::secondPassed()
     {
         alerting_ = true;
         emit alert(whereAmI());
-        qDebug() << "alerting";
+        qDebug() << "alerted";
     }
 
     emit remainingTimeChanged(); //after alerting in case of alert so that status gets updated immediately
@@ -87,13 +88,20 @@ void Timer::start()
 
     alerting_ = false;
 
+    if (_originalTime == 0) //has to be checked here, since 00:00:00 alert will already be negative when checked next time
+    //THIS ALERTS EVERY SECOND TIME THE TIMER IS STARTED! //This bug disappeared without explanation...
+    {
+        alerting_ = true;
+        emit alert(whereAmI());
+        qDebug () << "Alerted for 00:00:00 alert";
+    }
 }
 
 
 void Timer::stop()
 {
     _actualTimer.stop();
-    _remainingTime = 0; //Stopped timer shows 00:00:00 (which unfortunately makes it red...)
+    _remainingTime = 0; //Stopped timer shows 00:00:00
 
     alerting_ = false;
 }

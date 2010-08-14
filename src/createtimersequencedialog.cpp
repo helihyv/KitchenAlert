@@ -32,6 +32,7 @@ CreateTimerSequenceDialog::CreateTimerSequenceDialog(QWidget *parent) :
     ui(new Ui::CreateTimerSequenceDialog)
 {
     ui->setupUi(this);
+    ui->timer1AlertText->setMaxLength(40);
 }
 
 CreateTimerSequenceDialog::~CreateTimerSequenceDialog()

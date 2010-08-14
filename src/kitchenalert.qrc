@@ -1,5 +1,3 @@
 <RCC>
-    <qresource prefix="/">
-        <file alias="defaultsound">Tonitrus.wav</file>
-    </qresource>
+    <qresource prefix="/"/>
 </RCC>

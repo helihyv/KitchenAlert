@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>718</width>
-    <height>385</height>
+    <width>736</width>
+    <height>403</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,8 +40,8 @@
        <rect>
         <x>350</x>
         <y>0</y>
-        <width>711</width>
-        <height>381</height>
+        <width>721</width>
+        <height>391</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -92,6 +92,13 @@
           <widget class="QPushButton" name="CreateNewScheduleButton">
            <property name="text">
             <string>New timer</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="RemoveButton">
+           <property name="text">
+            <string>Remove</string>
            </property>
           </widget>
          </item>
