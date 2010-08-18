@@ -17,19 +17,22 @@ SOURCES += main.cpp\
     timer.cpp \
     currentalertstablemodel.cpp \
     alertsound.cpp \
-    selectsounddialog.cpp
+    selectsounddialog.cpp \
+    savedtimers.cpp
 
 HEADERS  += kitchenalertmainwindow.h \
     createtimersequencedialog.h \
     timer.h \
     currentalertstablemodel.h \
     alertsound.h \
-    selectsounddialog.h
+    selectsounddialog.h \
+    savedtimers.h
 
 FORMS    += kitchenalertmainwindow.ui \
     createtimersequencedialog.ui \
     selectsounddialog.ui \
-    kitchenalertmainwindow.ui
+    kitchenalertmainwindow.ui \
+    choosetimersequencedialog.ui
 
 CONFIG += mobility
 MOBILITY =
