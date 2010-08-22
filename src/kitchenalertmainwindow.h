@@ -71,6 +71,9 @@ public slots:
     void restart();
     void stop();
     void remove();
+    void saveTimer();
+    void loadTimer();
+
 
 
 protected:
@@ -90,6 +93,8 @@ private:
     QModelIndex selectedRow();
 
     AlertSound alertSound_;
+
+    void initializeTimer(Timer * p_timer);
 
 
 };

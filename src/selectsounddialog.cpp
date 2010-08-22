@@ -29,6 +29,7 @@
 #include <QFileDialog>
 #include <QSettings>
 #include <QDebug>
+#include <Phonon>
 
 SelectSoundDialog::SelectSoundDialog(QWidget *parent) :
     QDialog(parent),
@@ -50,6 +51,11 @@ SelectSoundDialog::SelectSoundDialog(QWidget *parent) :
     }
     else ui->CustomSoundRadioButton->setChecked(true);
     qDebug() << "UseDefaultSoundfile is " << useDefaultSoundFile;
+
+    connect(ui->testButton,SIGNAL(clicked()),this,SLOT(testSound()));
+    pSound_ = Phonon::createPlayer(Phonon::NoCategory, Phonon::MediaSource(ui->lineEdit->displayText()));
+
+
 }
 
 SelectSoundDialog::~SelectSoundDialog()
@@ -76,4 +82,10 @@ QString SelectSoundDialog::getSoundFileName()
 bool SelectSoundDialog::isDefaultSoundChecked()
 {
     return ui->DefaultSoundRadioButton->isChecked();
+}
+
+void SelectSoundDialog::testSound( )
+{
+    pSound_->setCurrentSource(ui->lineEdit->displayText());
+    pSound_->play();
 }

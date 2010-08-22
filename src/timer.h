@@ -52,6 +52,7 @@ class Timer : public QObject
 public:
     explicit Timer(QObject *parent = 0);
 
+
     int getOriginalTimeInSeconds();
     void setOriginalTimeInSeconds(int seconds);
 
@@ -61,6 +62,8 @@ public:
     void setAlertText(QString text);
 
     bool isAlerting();
+    bool save(QString filename);
+    bool load(QString filename);
 
 
 signals:
@@ -73,6 +76,7 @@ public slots:
     void start();
     void stop();
     void snooze();
+
 
 
 

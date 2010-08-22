@@ -24,44 +24,21 @@
 
 
 
-#ifndef SELECTSOUNDDIALOG_H
-#define SELECTSOUNDDIALOG_H
+#ifndef SAVEDTIMERS_H
+#define SAVEDTIMERS_H
 
-#include <QDialog>
-#include <Phonon>
+#include <QObject>
 
-namespace Ui {
-    class SelectSoundDialog;
-}
-
-/*! The class for sound selection dialog of KitchenAlert'
-
-  @author Heli Hyvättinen
-  @date 2010-07-20
-  @version 0.1
-
-The class for sound selection dialog in KitchenAlert.
-
-*/
-
-class SelectSoundDialog : public QDialog
+class SavedTimers : public QObject
 {
     Q_OBJECT
-
 public:
-    explicit SelectSoundDialog(QWidget *parent = 0);
-    ~SelectSoundDialog();
-    QString getSoundFileName();
-    bool isDefaultSoundChecked();
+    explicit SavedTimers(QObject *parent = 0);
+
+signals:
 
 public slots:
-    void browse();
-    void testSound();
-
-private:
-    Ui::SelectSoundDialog *ui;
-    Phonon::MediaObject* pSound_;
 
 };
 
-#endif // SELECTSOUNDDIALOG_H
+#endif // SAVEDTIMERS_H

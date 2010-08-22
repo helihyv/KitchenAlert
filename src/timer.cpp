@@ -27,6 +27,9 @@
 #include "timer.h"
 #include "currentalertstablemodel.h"
 #include <qdebug.h>
+#include <QFile>
+#include <QXmlStreamWriter>
+#include <QXmlStreamReader>
 
 Timer::Timer(QObject *parent) :
     QObject(parent)
@@ -133,6 +136,57 @@ QModelIndex Timer::whereAmI()
 
 
   return p_parentModel->giveIndexForTimer(this);
+
+
+}
+
+bool Timer::save(QString filename)
+{
+    QFile file(filename);
+
+    if (!file.open(QFile::WriteOnly | QFile::Text))
+    {
+       return false;
+    }
+
+    QXmlStreamWriter xmlWriter(&file);
+    xmlWriter.setAutoFormatting(true);
+    xmlWriter.writeStartDocument();
+    xmlWriter.writeStartElement("kitchenalert");
+    xmlWriter.writeStartElement("timer");
+    xmlWriter.writeAttribute("alert_text",_alertText);
+    xmlWriter.writeAttribute("time_in_seconds", QString().setNum(_originalTime));
+    xmlWriter.writeEndDocument(); //this should close all open elements
+
+    return true;
+}
+
+bool Timer::load(QString filename)
+{
+    QFile file (filename);
+    if (!file.open(QFile::ReadOnly | QFile::Text))
+    {
+        return false;
+    }
+
+    QXmlStreamReader reader;
+    reader.setDevice(&file);
+
+    reader.readNextStartElement();
+
+    if (reader.name() != "kitchenalert")
+        return false;
+
+    reader.readNextStartElement();
+    if (reader.name() != "timer")
+        return false;
+
+
+    _alertText = reader.attributes().value("alert_text").toString();
+    _originalTime = reader.attributes().value("time_in_seconds").toString().toInt();
+    return true;
+
+
 
 
 }

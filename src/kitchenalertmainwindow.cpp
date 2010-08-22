@@ -44,6 +44,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QFile>
+#include <QIcon>
 
 
 
@@ -53,6 +54,11 @@ KitchenAlertMainWindow::KitchenAlertMainWindow(QWidget *parent) :
     {
     ui->setupUi(this);
 
+    setWindowIcon(QIcon(":/icon64.png"));
+
+  //load sticky alerts to the model here...
+
+
 
   //alerts' tableview setup
 
@@ -60,13 +66,21 @@ KitchenAlertMainWindow::KitchenAlertMainWindow(QWidget *parent) :
   ui->ComingAlertsTableView->setModel(&model_);
   ui->ComingAlertsTableView->setSelectionMode(QAbstractItemView::SingleSelection);
   ui->ComingAlertsTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-  ui->ComingAlertsTableView->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
-  ui->ComingAlertsTableView->horizontalHeader()->resizeSection(0,460);
-  ui->ComingAlertsTableView->horizontalHeader()->resizeSection(1,140);
-  ui->ComingAlertsTableView->horizontalHeader()->resizeSection(2,100);
 
-  ui->ComingAlertsTableView->verticalHeader()->setResizeMode(QHeaderView::ResizeToContents);
-//  ui->ComingAlertsTableView->verticalHeader()->setDefaultSectionSize(40); //Needed with fixed cell heght only
+
+  //Commented out for testing their potebtial effect for slowdown:
+
+  //  ui->ComingAlertsTableView->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
+//  ui->ComingAlertsTableView->horizontalHeader()->resizeSection(0,460);
+//  ui->ComingAlertsTableView->horizontalHeader()->resizeSection(1,140);
+//  ui->ComingAlertsTableView->horizontalHeader()->resizeSection(2,100);
+
+//  ui->ComingAlertsTableView->verticalHeader()->setResizeMode(QHeaderView::ResizeToContents);
+
+
+
+
+//  ui->ComingAlertsTableView->verticalHeader()->setDefaultSectionSize(40); //Needed with fixed cell height only
 
 
 
@@ -286,10 +300,10 @@ void KitchenAlertMainWindow::openSelectSoundDialog()
 
 void KitchenAlertMainWindow::openAbout()
 {
-    QMessageBox::about(this,tr("About KitchenAlert"),tr("<p>Version 0.1.1"
+    QMessageBox::about(this,tr("About KitchenAlert"),tr("<p>Version %1"
                                                         "<p>Copyright &copy; Heli Hyv&auml;ttinen 2010"
                                                          "<p>License: General Public License v3"
-                                                         "<p>Bugtracker and project page: https://garage.maemo.org/projects/kitchenalert/"));
+                                                         "<p>Bugtracker and project page: https://garage.maemo.org/projects/kitchenalert/").arg(QApplication::applicationVersion()));
 }
 
 bool KitchenAlertMainWindow::event(QEvent *event)

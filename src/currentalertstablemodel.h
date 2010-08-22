@@ -61,6 +61,8 @@ public:
 
     bool isThisTimerAlerting(QModelIndex index);
 
+    bool saveTimer(QModelIndex index,QString filename);
+
 signals:
 
 public slots:

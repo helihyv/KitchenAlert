@@ -29,6 +29,8 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     a.setApplicationName("KitchenAlert"); //a name required by phonon
+    a.setApplicationVersion("0.2");
+
     KitchenAlertMainWindow w;
 #if defined(Q_WS_S60)
     w.showMaximized();

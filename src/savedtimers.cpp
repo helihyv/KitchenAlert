@@ -1,7 +1,9 @@
 /**************************************************************************
-        This file is part of KitchenAlert v.0.09
+        KitchenAlert
 
         Copyright (C) 2010  Heli Hyvättinen
+        
+        This file is part of KitchenAlert.
 
         Kitchen Alert is free software: you can redistribute it and/or modify
         it under the terms of the GNU General Public License as published by
@@ -21,3 +23,10 @@
 
 
 
+
+#include "savedtimers.h"
+
+SavedTimers::SavedTimers(QObject *parent) :
+    QObject(parent)
+{
+}

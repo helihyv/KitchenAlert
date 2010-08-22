@@ -308,3 +308,8 @@ void CurrentAlertsTableModel::removeTimer(QModelIndex index)
         delete p_timer;
     }
 }
+
+bool CurrentAlertsTableModel::saveTimer(QModelIndex index, QString filename)
+{
+    return currentTimers_.at(index.row())->save(filename);
+}
