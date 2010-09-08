@@ -28,7 +28,6 @@
 #define SELECTSOUNDDIALOG_H
 
 #include <QDialog>
-#include <Phonon>
 
 namespace Ui {
     class SelectSoundDialog;
@@ -56,12 +55,9 @@ public:
 
 public slots:
     void browse();
-    void testSound();
 
 private:
     Ui::SelectSoundDialog *ui;
-    Phonon::MediaObject* pSound_;
-
 };
 
 #endif // SELECTSOUNDDIALOG_H

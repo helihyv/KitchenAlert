@@ -35,7 +35,7 @@
 /*! Class that contains the model that holds the timers'
 
   @author Heli Hyvättinen
-  @date 2010-08-08
+  @date 2010-09-08
   @version 0.1.1
 
 Class that contains the model that holds the timers
@@ -49,48 +49,93 @@ class CurrentAlertsTableModel : public QAbstractTableModel
 public:
     explicit CurrentAlertsTableModel(QObject *parent = 0);
 
+    /*!
+    Returns the number of rows in the model.
+    Used by the view.
+    */
     int rowCount(const QModelIndex &parent) const;
 
+    /*!
+      Returns the (fixed) number of columns in the model.
+      Used by the view.
+    */
     int columnCount(const QModelIndex &parent) const;
 
+    /*!
+    Returns the queried contents of the cell
+    Used by the view.
+    */
     QVariant data(const QModelIndex &index, int role) const;
 
+    /*!
+      Returns the queried header data.
+      As no headers are wanted, it always returns an empty QVariant.
+      Used by the view.
+      */
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
+    /*!
+      Returns the index in the model of the given timer
+      */
     QModelIndex giveIndexForTimer(Timer * ptimer);
 
+    /*!
+      Returns whether the timer in the given position is currently alerting.
+      @param index Any cell from the row of the alert is good here.
+      */
     bool isThisTimerAlerting(QModelIndex index);
-
-    bool saveTimer(QModelIndex index,QString filename);
 
 signals:
 
 public slots:
 
-    void addTimers(QList <Timer *> timers);
+    /*!
+       Adds the timers to the model
+    @param timers List of timers to be added
+    @param startImmediately If true, the timers will be started after adding to the model.
+    */
+    void addTimers(QList <Timer *> timers, bool startImmediately = true);
 
+    /*!
+     Tells the view to refresh all information in the time column.
+      */
     void refreshTimeColumn ();
 
+    /*!
+      Passes the start command to the timer in the given index.
+      @param index Any cell from the row of the alert is good here.
+      */
     void startTimer(QModelIndex index);
+
+    /*!
+      Passes the snooze command to the timer in the given index.
+      @param index Any cell from the row of the alert is good here.
+      */
     void snoozeTimer(QModelIndex index);
+
+
+    /*!
+      Passes the stop command to the timer in the given index.
+      @param index Any cell from the row of the alert is good here.
+      */
     void stopTimer(QModelIndex index);
 
-
+/*!
+Sets whether the view should be kept up to date.
+*/
     void setUpdateViewOnChanges(bool update);
 
-    void removeTimer(QModelIndex index);
-
 private:
-    QList <Timer * > currentTimers_;
+    QList <Timer * > currentTimers_; /*! Holds the timers */
 
-    static const int numberOfColumns_ = 3;
-    static const int alertTextColumnNumber_ = 0;
-    static const int timeRemainingColumnNumber_ = 1;
-    static const int statusColumnNumber_ = 2;
+    static const int numberOfColumns_ = 3; /*! The fixed number of columns in the model */
+    static const int alertTextColumnNumber_ = 0; /*! Tells which column contains the alert text */
+    static const int timeRemainingColumnNumber_ = 1; /*! Tells which column contains the time remaining until alert */
+    static const int statusColumnNumber_ = 2; /*! Tells which column contains status information, such as that the timer is alerting  */
 
 
 
-    bool updateViewOnChanges_;
+    bool updateViewOnChanges_; /*! Keeps track on whether the view should be kept up to date. */
 
 };
 

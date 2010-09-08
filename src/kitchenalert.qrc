@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>icon64.png</file>
+        <file>kitchenalert.png</file>
     </qresource>
 </RCC>

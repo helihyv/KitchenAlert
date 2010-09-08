@@ -26,8 +26,6 @@
 
 #include <QDebug>
 #include <QSettings>
-#include <QList>
-
 
 
 
@@ -53,32 +51,11 @@ AlertSound::AlertSound(QObject *parent) :
         filename = settings.value("soundfile",defaultsound_).toString();
     }
     pSound_ = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(filename));
-
-
-    //TESTCODE!!!
-
-    QList<Phonon::AudioOutputDevice> audioOutputDevices =
-                 Phonon::BackendCapabilities::availableAudioOutputDevices();
-
-    foreach (Phonon::AudioOutputDevice device, audioOutputDevices)
-    {
-    qDebug() << device.name() << device.description();
-    }
 }
 
 void AlertSound::play()
 {
-
-    //TESTCODE
-
-    Phonon::AudioOutput *audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
-
-    Phonon::Path path = Phonon::createPath(pSound_, audioOutput);
-
-    audioOutput->setVolumeDecibel(0);
-
-    //TESTCODE ENDS
-
+    pSound_->stop(); //Just testing if stopping the previous alert will prevent the jammming of the sound
     pSound_->play();
     qDebug() << "Sound should be played now";
 }

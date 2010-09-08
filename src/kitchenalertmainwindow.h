@@ -40,7 +40,7 @@ namespace Ui {
 /*! The main window class of KitchenAlert'
 
   @author Heli Hyvättinen
-  @date 2010-08-08
+  @date 2010-09-08
   @version 0.1.1
 
 Operates the UI.
@@ -60,41 +60,90 @@ public:
 
 
 public slots:
-    void newTimerSequence();
-    void openSelectSoundDialog();
+   /*!
+   Opens a dialog for creating a new timer
+   Connects the new timer's alert and adds it to the model, starting the timer
+    */
+        void newTimerSequence();
+
+   /*!
+   Opens a dialog for choosing the alert sound
+   Gives the sound filename to AlertSound
+    */
+   void openSelectSoundDialog();
+
+    /*!
+   Shows the application's about box
+   */
     void openAbout();
 
+/*! Sounds the alert sound and selects the alarming timer
+  Also bring the application to top and activates it
+  Used by connecting it to the timer's alert signal
+  @param indexOfAlerted The index of the alerting timer in the model.
 
+  */
     void alert(QModelIndex indexOfAlerted);
-    void timerSelected(QItemSelection selected,QItemSelection deselected);
-    void snooze();
-    void restart();
-    void stop();
-    void remove();
-    void saveTimer();
-    void loadTimer();
 
+/*!
+    Reacts to selecting of timer in the view.
+    Needs to be connected to the corresponding signal.
+    Sets enabling of buttons as necessary.
+    Does not receive information of clearing the selection (because no signal is sent).
+    Disabling selection dependent buttons must be done manually by everything that clears the selection.
+    It cannot be cleared by the user with the selection policy used.
+
+    @param selected Selection that contains all selected cells (all cells of the row selected).
+*/
+    void timerSelected(QItemSelection selected,QItemSelection);
+
+    /*! Snoozes the timer that is currently selected.
+      Needs to be connected to the associated button.
+    */
+    void snooze();
+
+    /*! Restarts the timer selected.
+      Needs to be connected to the associated button.
+    */
+    void restart();
+
+    /*! Stops the timer selected.
+      Needs to be connected to the associated button.
+    */
+    void stop();
 
 
 protected:
     void changeEvent(QEvent *e);
+
+    /*!
+    Reimplemented to catch WindowActivate and WindowDeactivate events.
+    Stops refreshing the view when the window is deactivated and resumes it when reactivated.
+    */
     bool event(QEvent *event);
 
+    /*!
+    Disables all buttons that should only be enabled when a timer is selected.
+    */
     void disableSelectionDependentButtons();
 
 private:
 
     Ui::KitchenAlertMainWindow *ui;
 
-    QList <Timer *> currentTimers_;
+    CurrentAlertsTableModel model_; /*! The model that stores the alerts */
 
-    CurrentAlertsTableModel model_;
-
+    /*!
+    Returns a QMoldelIndex pointing to a cell in the row that is currently selected.
+    */
     QModelIndex selectedRow();
 
-    AlertSound alertSound_;
+    AlertSound alertSound_; /*! Takes care of alert sound */ //This has been moved to the timers themselves
 
-    void initializeTimer(Timer * p_timer);
+    /*!
+    Not used. Would allow getting rid of the default sound if used.
+    */
+    void initializeAlertSound();
 
 
 };

@@ -34,12 +34,12 @@
 
 #include <QModelIndex>
 
-
+#include "alertsound.h"
 
 /*! The timer class of KitchenAlert'
 
   @author Heli Hyvättinen
-  @date 2010-08-12
+  @date 2010-09-08
   @version 0.1.1
 
 The timer class of KitchenAlert.
@@ -52,18 +52,21 @@ class Timer : public QObject
 public:
     explicit Timer(QObject *parent = 0);
 
+    /*! Returns the original time in seconds
+        When the alert restarts, it is set to this time.
+    */
+     int getOriginalTimeInSeconds();
 
-    int getOriginalTimeInSeconds();
+    /*! Sets the original time in seconds */
     void setOriginalTimeInSeconds(int seconds);
 
+    /*! Returns the time remaining before the alert in seconds       */
     int getRemainingTimeInSeconds();
 
     QString getAlertText();
     void setAlertText(QString text);
 
     bool isAlerting();
-    bool save(QString filename);
-    bool load(QString filename);
 
 
 signals:
@@ -79,7 +82,6 @@ public slots:
 
 
 
-
 private:
     int _originalTime; //seconds!
     int _remainingTime; //seconds!
@@ -88,6 +90,8 @@ private:
     bool alerting_;
 
     QModelIndex whereAmI();
+
+    AlertSound alertSound_;
 
 };
 

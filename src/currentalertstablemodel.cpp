@@ -140,7 +140,7 @@ QVariant CurrentAlertsTableModel::data(const QModelIndex &index, int role) const
 
 //                    qDebug () << timeAsText;
 
-                   return timeAsText;
+                    return timeAsText;
 
 
                 case statusColumnNumber_:
@@ -165,24 +165,24 @@ QVariant CurrentAlertsTableModel::data(const QModelIndex &index, int role) const
 
 
 
-      case Qt::BackgroundRole :
+//      case Qt::BackgroundRole :
 
-            //For some reason, these have no effect at all!!! They are asked by the view though.
+//            //For some reason, these have no effect at all!!! They are asked by the view though.
 
-            //No need to care for the column number, all have the same color
+//            //No need to care for the column number, all have the same color
 
 //            qDebug() << "BackgroundRole asked";
 
-            if (currentTimers_.at(index.row())->isAlerting())
-            {
+//            if (currentTimers_.at(index.row())->isAlerting())
+//            {
 //                qDebug() << "black background";
-                return QBrush (QColor(Qt::black));
-            }
-            else
-            {
+//                return QBrush (QColor(Qt::black));
+//            }
+//            else
+//            {
 //                qDebug() << "red background";
-                return QBrush (QColor(Qt::red));
-            }
+//                return QBrush (QColor(Qt::red));
+//            }
         default:
             return QVariant();
 
@@ -195,8 +195,10 @@ QVariant CurrentAlertsTableModel::data(const QModelIndex &index, int role) const
 
 
 
-void CurrentAlertsTableModel::addTimers(QList <Timer *> timers)
+void CurrentAlertsTableModel::addTimers(QList <Timer *> timers, bool startImmediately)
 {
+
+//preparatory work
     foreach (Timer* timer, timers)
     {
         connect (timer,SIGNAL(remainingTimeChanged()),this,SLOT(refreshTimeColumn()));
@@ -204,13 +206,23 @@ void CurrentAlertsTableModel::addTimers(QList <Timer *> timers)
         timer->setParent(this); //The model becomes the timers parent giving the timer access to model
     }
 
-    int nextRow = rowCount(QModelIndex()); //As row numbering starts from zero, number of the rows is the row number of the row after current ones
-    int lastRow = nextRow + timers.length()-1;
-    beginInsertRows(QModelIndex(),nextRow,lastRow);
+
+//Add the timers
+
+    beginResetModel();
     currentTimers_.append(timers);
-    endInsertRows();
-//    qDebug() << "Timers should be appended";
-//    reset();
+    endResetModel();
+
+    //start the timers if requested
+
+    if (startImmediately)
+    {
+        foreach (Timer* timer, timers)
+        {
+            timer->start();
+        }
+    }
+
 }
 
 
@@ -281,7 +293,7 @@ void CurrentAlertsTableModel::setUpdateViewOnChanges(bool update)
 {
     updateViewOnChanges_ = update;
     if (update == true)
-        reset(); //Refresh view to catch up with past changes
+        refreshTimeColumn(); //Refresh to catch up with past changes
 }
 
 bool CurrentAlertsTableModel::isThisTimerAlerting(QModelIndex index)
@@ -295,21 +307,4 @@ bool CurrentAlertsTableModel::isThisTimerAlerting(QModelIndex index)
 
     }
     return false;
-}
-
-void CurrentAlertsTableModel::removeTimer(QModelIndex index)
-{
-    if (index.isValid())
-    {
-        int row = index.row();
-        beginRemoveRows(QModelIndex(),row,row);
-        Timer* p_timer = currentTimers_.takeAt(row);
-        endRemoveRows();
-        delete p_timer;
-    }
-}
-
-bool CurrentAlertsTableModel::saveTimer(QModelIndex index, QString filename)
-{
-    return currentTimers_.at(index.row())->save(filename);
 }

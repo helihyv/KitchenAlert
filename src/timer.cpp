@@ -27,9 +27,6 @@
 #include "timer.h"
 #include "currentalertstablemodel.h"
 #include <qdebug.h>
-#include <QFile>
-#include <QXmlStreamWriter>
-#include <QXmlStreamReader>
 
 Timer::Timer(QObject *parent) :
     QObject(parent)
@@ -41,7 +38,6 @@ Timer::Timer(QObject *parent) :
 
     alerting_ = false;
 }
-
 
 
 int Timer::getOriginalTimeInSeconds()
@@ -77,8 +73,9 @@ void Timer::secondPassed()
     if (_remainingTime == 0)
     {
         alerting_ = true;
+        alertSound_.play();
         emit alert(whereAmI());
-        qDebug() << "alerted";
+//        qDebug() << "alerting";
     }
 
     emit remainingTimeChanged(); //after alerting in case of alert so that status gets updated immediately
@@ -89,24 +86,32 @@ void Timer::start()
     _remainingTime = _originalTime;
     _actualTimer.start();
 
-    alerting_ = false;
 
-    if (_originalTime == 0) //has to be checked here, since 00:00:00 alert will already be negative when checked next time
-    //THIS ALERTS EVERY SECOND TIME THE TIMER IS STARTED! //This bug disappeared without explanation...
+
+    if (_originalTime == 0) //a 00:00:00 alert has to  be checked here, since it's already negative when checked for the next time
     {
-        alerting_ = true;
+        alerting_  = true;
+        alertSound_.play();
         emit alert(whereAmI());
-        qDebug () << "Alerted for 00:00:00 alert";
+        qDebug () << "Alerting 00:00:00 from row: " << whereAmI().row();
     }
+
+    else
+    {
+        alerting_ = false;
+        alertSound_.stop();
+    }
+
 }
 
 
 void Timer::stop()
 {
     _actualTimer.stop();
-    _remainingTime = 0; //Stopped timer shows 00:00:00
+    _remainingTime = 0; //Stopped timer shows 00:00:00 (which unfortunately makes it red...)
 
     alerting_ = false;
+    alertSound_.stop();
 }
 
 void Timer::snooze()
@@ -114,6 +119,7 @@ void Timer::snooze()
     _remainingTime = 120;
 
     alerting_ = false;
+    alertSound_.stop();
 }
 
 
@@ -136,57 +142,6 @@ QModelIndex Timer::whereAmI()
 
 
   return p_parentModel->giveIndexForTimer(this);
-
-
-}
-
-bool Timer::save(QString filename)
-{
-    QFile file(filename);
-
-    if (!file.open(QFile::WriteOnly | QFile::Text))
-    {
-       return false;
-    }
-
-    QXmlStreamWriter xmlWriter(&file);
-    xmlWriter.setAutoFormatting(true);
-    xmlWriter.writeStartDocument();
-    xmlWriter.writeStartElement("kitchenalert");
-    xmlWriter.writeStartElement("timer");
-    xmlWriter.writeAttribute("alert_text",_alertText);
-    xmlWriter.writeAttribute("time_in_seconds", QString().setNum(_originalTime));
-    xmlWriter.writeEndDocument(); //this should close all open elements
-
-    return true;
-}
-
-bool Timer::load(QString filename)
-{
-    QFile file (filename);
-    if (!file.open(QFile::ReadOnly | QFile::Text))
-    {
-        return false;
-    }
-
-    QXmlStreamReader reader;
-    reader.setDevice(&file);
-
-    reader.readNextStartElement();
-
-    if (reader.name() != "kitchenalert")
-        return false;
-
-    reader.readNextStartElement();
-    if (reader.name() != "timer")
-        return false;
-
-
-    _alertText = reader.attributes().value("alert_text").toString();
-    _originalTime = reader.attributes().value("time_in_seconds").toString().toInt();
-    return true;
-
-
 
 
 }

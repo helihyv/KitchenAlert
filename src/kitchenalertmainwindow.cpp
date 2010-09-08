@@ -42,9 +42,7 @@
 #include <QAction>
 #include <QMenuBar>
 #include <QMessageBox>
-#include <QFileDialog>
-#include <QFile>
-#include <QIcon>
+#include <QSettings>
 
 
 
@@ -54,10 +52,12 @@ KitchenAlertMainWindow::KitchenAlertMainWindow(QWidget *parent) :
     {
     ui->setupUi(this);
 
-    setWindowIcon(QIcon(":/icon64.png"));
+    setWindowIcon(QIcon(":/kitchenalert.png"));
 
-  //load sticky alerts to the model here...
 
+
+
+  connect(ui->CreateNewScheduleButton, SIGNAL (pressed()), this, SLOT (newTimerSequence()));
 
 
   //alerts' tableview setup
@@ -67,42 +67,27 @@ KitchenAlertMainWindow::KitchenAlertMainWindow(QWidget *parent) :
   ui->ComingAlertsTableView->setSelectionMode(QAbstractItemView::SingleSelection);
   ui->ComingAlertsTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-
-  //Commented out for testing their potebtial effect for slowdown:
-
-  //  ui->ComingAlertsTableView->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
-//  ui->ComingAlertsTableView->horizontalHeader()->resizeSection(0,460);
-//  ui->ComingAlertsTableView->horizontalHeader()->resizeSection(1,140);
-//  ui->ComingAlertsTableView->horizontalHeader()->resizeSection(2,100);
-
-//  ui->ComingAlertsTableView->verticalHeader()->setResizeMode(QHeaderView::ResizeToContents);
-
-
-
-
-//  ui->ComingAlertsTableView->verticalHeader()->setDefaultSectionSize(40); //Needed with fixed cell height only
-
-
-
-
   ui->ComingAlertsTableView->horizontalHeader()->hide();
-  ui->ComingAlertsTableView->setWordWrap(true);
+//  ui->ComingAlertsTableView->verticalHeader()->setVisible(true);
+
+  ui->ComingAlertsTableView->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
+  ui->ComingAlertsTableView->horizontalHeader()->resizeSection(0,535);
+  ui->ComingAlertsTableView->horizontalHeader()->resizeSection(1,140);
+  ui->ComingAlertsTableView->horizontalHeader()->resizeSection(2,100);
+
+  ui->ComingAlertsTableView->verticalHeader()->setResizeMode(QHeaderView::ResizeToContents);
 
 
-  //Buttons used when a timer is selected are disabled by default and enabled upon selection
+  //Buttons used to reacting an alarm are hidden by default
 
   disableSelectionDependentButtons();
 
+
   connect(ui->ComingAlertsTableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),this,SLOT(timerSelected(QItemSelection,QItemSelection)));
 
-  //connect buttons to respective functions
-  connect(ui->CreateNewScheduleButton, SIGNAL (pressed()), this, SLOT (newTimerSequence()));
   connect(ui->DoneButton,SIGNAL(clicked()),this,SLOT(stop()));
   connect(ui->RestartButton,SIGNAL(clicked()),this,SLOT(restart()));
   connect(ui->SnoozeButton,SIGNAL(clicked()),this, SLOT(snooze()));
-  connect(ui->RemoveButton,SIGNAL(clicked()),this,SLOT(remove()));
-  connect(ui->SaveButton,SIGNAL(clicked()),this,SLOT(saveTimer()));
-  connect(ui->loadButton,SIGNAL(clicked()),this,SLOT(loadTimer()));
 
   // menu setup
 
@@ -143,37 +128,28 @@ void KitchenAlertMainWindow::newTimerSequence()
     if (createdialog.exec() == QDialog::Accepted) //if user pressed OK
     {
 
-        //get user input from the dialog
 
+       QList<Timer *>  alltimers = createdialog.getTimers();  //get user input from the dialog
 
-       QList<Timer *>  alltimers = createdialog.getTimers();
+       Timer* timer1 = alltimers.at(0); // take first timer (currently the only one!)
 
-       // take first timer (currently the only one!)
-
-
-       Timer* timer1 = alltimers.at(0);
-
-
-       //connect alert
 
 
        connect(timer1,SIGNAL(alert(QModelIndex)),this,SLOT(alert(QModelIndex)));
 
 
-       //Disable buttons, as selection is cleared when view is refreshed to show the new timer
 
-       disableSelectionDependentButtons();
+        model_.addTimers(alltimers); // give timers to the model, they are started automatically by default
 
-
-       // give timers to the model
-
-       model_.addTimers(alltimers);
+ //       ui->ComingAlertsTableView->resizeColumnsToContents();
 
 
-       //start the timer when it's safely in the model (consider moving this to the model's addTimers function)
+        //Disable buttons, as selection is cleared when view is refreshed to show the new timer
+        //But only if the timer has not already alerted and thus been selected
 
+        if (!selectedRow().isValid())
+            disableSelectionDependentButtons();
 
-       timer1->start();
 
 
     }
@@ -197,7 +173,7 @@ void KitchenAlertMainWindow::alert(QModelIndex indexOfAlerter)
 
     // The alerting timer is selected
     ui->ComingAlertsTableView->selectionModel()->select(QItemSelection(indexOfAlerter,indexOfAlerter),QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows );
-//    qDebug() << "Should be selected now";
+    qDebug() << "Should be selected now";
 
 
     //Snooze button is enabled
@@ -205,22 +181,27 @@ void KitchenAlertMainWindow::alert(QModelIndex indexOfAlerter)
 
     ui->SnoozeButton->setEnabled(true);
 
-    //The alert sound is played (consider moving this operation inside timer, as now stopping one alert will silence all alerting alerts)
+    //Debug message
 
-    alertSound_.play();
+
+
+    ui->debugLabel->setText(tr("Alert received from row %1").arg(indexOfAlerter.row()));
+    qDebug() << "Wrote the debug message";
+
+    //The alert sound is played
+   //TESTING TO MOVE THIS OPERATION TO THE TIMER ITSELF
+//    alertSound_.play();
 
 }
 
 
-void KitchenAlertMainWindow::timerSelected(QItemSelection selected,QItemSelection deselected)
+void KitchenAlertMainWindow::timerSelected(QItemSelection selected,QItemSelection)
 {
     ui->DoneButton->setEnabled(true);
     ui->RestartButton->setEnabled(true);
-    ui->RemoveButton->setEnabled(true);
-    ui->SaveButton->setEnabled(true);
 
 
-    //enabled only when alerting
+    //snooze button enabled only when alerting
     QModelIndexList indexes = selected.indexes();
 
     //the selection model only allows selecting one row at the time & we only need to know the row, so we can just take the first one
@@ -244,7 +225,7 @@ void KitchenAlertMainWindow::snooze()
         model_.snoozeTimer(row);
     }
     ui->SnoozeButton->setDisabled(true);
-    alertSound_.stop();
+  //  alertSound_.stop();
 
 }
 
@@ -257,7 +238,7 @@ void KitchenAlertMainWindow::restart()
         model_.startTimer(row);
     }
     ui->SnoozeButton->setDisabled(true);
-    alertSound_.stop();
+ //   alertSound_.stop();
 
 }
 
@@ -269,8 +250,7 @@ void KitchenAlertMainWindow::stop()
         model_.stopTimer(row);
     }
     ui->SnoozeButton->setDisabled(true);
-    alertSound_.stop();
-    qDebug() << "Stopped.";
+//    alertSound_.stop();
 }
 
 QModelIndex KitchenAlertMainWindow::selectedRow()
@@ -285,17 +265,16 @@ QModelIndex KitchenAlertMainWindow::selectedRow()
 
 void KitchenAlertMainWindow::openSelectSoundDialog()
 {
+    //THIS CEASED TO WORK WHEN SOUND WAS MOVED TO TIMERS THEMSELVES
     SelectSoundDialog dialog;
    if ( dialog.exec() == QDialog::Accepted) //if user pressed OK
     {
        if (dialog.isDefaultSoundChecked() == true)
            alertSound_.setDefaultSound();
        else
-        alertSound_.setSound(dialog.getSoundFileName());
-
-   //opening a dialog clears the selection so the selection dependen buttons must be disabled
+            alertSound_.setSound(dialog.getSoundFileName());
     }
-    disableSelectionDependentButtons();
+
 }
 
 void KitchenAlertMainWindow::openAbout()
@@ -303,18 +282,23 @@ void KitchenAlertMainWindow::openAbout()
     QMessageBox::about(this,tr("About KitchenAlert"),tr("<p>Version %1"
                                                         "<p>Copyright &copy; Heli Hyv&auml;ttinen 2010"
                                                          "<p>License: General Public License v3"
-                                                         "<p>Bugtracker and project page: https://garage.maemo.org/projects/kitchenalert/").arg(QApplication::applicationVersion()));
+                                                         "<p>Web page: http://kitchenalert.garage.maemo.org/"
+                                                         "<p>Bugtracker: https://garage.maemo.org/projects/kitchenalert/").arg(QApplication::applicationVersion()));
 }
 
 bool KitchenAlertMainWindow::event(QEvent *event)
 {
     QMainWindow::event(event);
 
+
+
     switch (event->type())
     {
         case QEvent::WindowActivate:
 
             model_.setUpdateViewOnChanges(true);
+
+
               break;
 
        case QEvent::WindowDeactivate:
@@ -323,6 +307,8 @@ bool KitchenAlertMainWindow::event(QEvent *event)
 
        default:
             break;
+
+
     }
 }
 
@@ -331,133 +317,31 @@ void KitchenAlertMainWindow::disableSelectionDependentButtons()
     ui->DoneButton->setDisabled(true);
     ui->SnoozeButton->setDisabled(true);
     ui->RestartButton->setDisabled(true);
-    ui->RemoveButton->setDisabled(true);
-    ui->SaveButton->setDisabled(true);
+
 }
 
-void KitchenAlertMainWindow::remove()
+void KitchenAlertMainWindow::initializeAlertSound()
 {
-   QModelIndex row = selectedRow();
-   if (row.isValid())
+    QSettings settings;
+
+    bool useDefaultSound = settings.value("UseDefaultSound",true).toBool();
+    QString filename = settings.value("soundfile","").toString();
+
+    if (useDefaultSound == true)
+    {
+        openSelectSoundDialog();
+    }
+    else if (filename.isEmpty())
+    {
+        openSelectSoundDialog();
+    }
+
+   QString currentFilename = settings.value("soundfile","").toString();
+
+   if (currentFilename.isEmpty())
    {
-    model_.removeTimer(row);
-    alertSound_.stop();
-    ui->ComingAlertsTableView->clearSelection();
-    disableSelectionDependentButtons();
+        ui->debugLabel->setText("<FONT color=red>No alert sound file set. Alert sound will not be played!</FONT>");
+
    }
-}
 
-void KitchenAlertMainWindow::saveTimer()
-{
-
-    QModelIndex row = selectedRow();
-
-    if (row.isValid() == false) //If there was no row selected invalid row was returned
-        return;
-
-
-    //file name is asked. As the filename will be appended, there's no point in confirming owerwrite here
-    QString filename = QFileDialog::getSaveFileName(this, "", "", "*.kitchenalert",NULL,QFileDialog::DontConfirmOverwrite);
-
-    disableSelectionDependentButtons();
-
-    qDebug() << filename;
-
-    if (filename.isEmpty()) //user cancelled the dialog (or gave an empty name)
-    {
-        return;
-    }
-
-    if (!filename.endsWith(".kitchenalert"))
-    {
-        filename.append(".kitchenalert");
-
-    }
-
-    qDebug() << "filename appended to " << filename;
-
-
-    //MANUAL CONFIRMATION OF OWERWRITE
-
-    if ( QFile::exists(filename))
-    {
-         //ASK FOR CONFIRMATION
-
-        QString overwriteQuestion ("File ");
-        overwriteQuestion.append(filename);
-        overwriteQuestion.append(" already exists. Do you want to overwrite it?");
-        if (QMessageBox::question(this,"Confirm overwrite?", overwriteQuestion,QMessageBox::Yes | QMessageBox::No,QMessageBox::No) != QMessageBox::Yes)
-        {
-            return;
-        }
-    }
-
-
-
-
-
-    QString errorMessage(tr("Cannot write to file "));
-    errorMessage.append(filename);
-
-    if (!model_.saveTimer(row,filename)) //Save the file, if not successful give an error message
-    {
-        QMessageBox::critical(this,tr("Save timer failed!"), errorMessage);
-    }
-
-
-}
-
-void KitchenAlertMainWindow::loadTimer()
-{
-    QString filename = QFileDialog::getOpenFileName(this,"","",tr("KitchenAlert timer files (*.kitchenalert)"));
-    if (!filename.isEmpty())
-    {
-
-//        if (!filename.endsWith(".kitchenalert"))      //not needed, the dialog won't let the user to select files not ending with ".kitchenalert"
-//        {
-//            filename.append(".kitchenalert");
-//        }
-
-        QString errorTitle(tr("Failed to load file "));
-        errorTitle.append(filename);
-
-        Timer * p_timer = new Timer();
-        if (!p_timer->load(filename))
-        {
-            QMessageBox::critical(this,errorTitle,tr("Unable to open file or not a valid KitchenAlert timer file."));
-            delete p_timer;
-            return;
-        }
-
-        initializeTimer(p_timer);
-    }
-}
-
-
-void KitchenAlertMainWindow::initializeTimer(Timer *p_timer)
-{
-
-//connect alert
-
-
-connect(p_timer,SIGNAL(alert(QModelIndex)),this,SLOT(alert(QModelIndex)));
-
-
-//Disable buttons, as selection is cleared when view is refreshed to show the new timer
-
-disableSelectionDependentButtons();
-
-
-// give timers to the model (model wants list of timers now..)
-
-QList<Timer *> timerList;
-
-timerList.append(p_timer);
-model_.addTimers(timerList);
-
-
-//start the timer when it's safely in the model (consider moving this to the model's addTimers function)
-
-
-p_timer->start();
 }
