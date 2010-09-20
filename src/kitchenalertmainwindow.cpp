@@ -137,6 +137,11 @@ void KitchenAlertMainWindow::newTimerSequence()
 
        connect(timer1,SIGNAL(alert(QModelIndex)),this,SLOT(alert(QModelIndex)));
 
+       //TODO: FIND A WAY TO INFORM THE TIMERS' ALERTSOUND'S OF A CHANGE OF THE SOUND FILE THEY SHOULD USE!!!!
+
+       connect(this,SIGNAL(defaultSoundEnabled()),timer1,SLOT(enableDefaultSound()));
+       connect(this,SIGNAL(soundChanged(QString)),timer1,SLOT(changeAlertSound(QString)));
+
 
 
         model_.addTimers(alltimers); // give timers to the model, they are started automatically by default
@@ -270,9 +275,9 @@ void KitchenAlertMainWindow::openSelectSoundDialog()
    if ( dialog.exec() == QDialog::Accepted) //if user pressed OK
     {
        if (dialog.isDefaultSoundChecked() == true)
-           alertSound_.setDefaultSound();
+           emit defaultSoundEnabled();
        else
-            alertSound_.setSound(dialog.getSoundFileName());
+           emit soundChanged(dialog.getSoundFileName());
     }
 
 }

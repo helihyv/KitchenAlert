@@ -80,6 +80,10 @@ public slots:
     void stop();
     void snooze();
 
+    void enableDefaultSound();
+    void changeAlertSound(QString filename);
+
+
 
 
 private:

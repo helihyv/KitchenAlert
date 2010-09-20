@@ -112,6 +112,11 @@ public slots:
     */
     void stop();
 
+signals:
+
+    void defaultSoundEnabled();
+
+    void soundChanged(QString filename);
 
 protected:
     void changeEvent(QEvent *e);

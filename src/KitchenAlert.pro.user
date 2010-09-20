@@ -123,12 +123,14 @@
      <value key="Qt4ProjectManager.MakeStep.MakeCommand" type="QString"></value>
     </valuemap>
     <valuemap key="ProjectExplorer.BuildConfiguration.BuildStep.2" type="QVariantMap">
+     <value key="Packaging Enabled" type="bool">true</value>
      <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
      <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.MaemoPackageCreationStep</value>
      <valuelist key="Qt4ProjectManager.BuildStep.MaemoPackage.LocalFiles" type="QVariantList"/>
      <value key="Qt4ProjectManager.BuildStep.MaemoPackage.Modified" type="bool">false</value>
      <value key="Qt4ProjectManager.BuildStep.MaemoPackage.RemoteExe" type="QString">/usr/local/bin/KitchenAlert</value>
      <valuelist key="Qt4ProjectManager.BuildStep.MaemoPackage.RemoteFiles" type="QVariantList"/>
+     <value key="Version Number" type="QString">0.0.1</value>
     </valuemap>
     <value key="ProjectExplorer.BuildConfiguration.BuildStepsCount" type="int">3</value>
     <valuemap key="ProjectExplorer.BuildConfiguration.CleanStep.0" type="QVariantMap">
@@ -165,12 +167,14 @@
      <value key="Qt4ProjectManager.MakeStep.MakeCommand" type="QString"></value>
     </valuemap>
     <valuemap key="ProjectExplorer.BuildConfiguration.BuildStep.2" type="QVariantMap">
+     <value key="Packaging Enabled" type="bool">true</value>
      <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
      <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.MaemoPackageCreationStep</value>
      <valuelist key="Qt4ProjectManager.BuildStep.MaemoPackage.LocalFiles" type="QVariantList"/>
      <value key="Qt4ProjectManager.BuildStep.MaemoPackage.Modified" type="bool">true</value>
      <value key="Qt4ProjectManager.BuildStep.MaemoPackage.RemoteExe" type="QString"></value>
      <valuelist key="Qt4ProjectManager.BuildStep.MaemoPackage.RemoteFiles" type="QVariantList"/>
+     <value key="Version Number" type="QString">0.0.1</value>
     </valuemap>
     <value key="ProjectExplorer.BuildConfiguration.BuildStepsCount" type="int">3</value>
     <valuemap key="ProjectExplorer.BuildConfiguration.CleanStep.0" type="QVariantMap">
@@ -199,11 +203,23 @@
     <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString">New Maemo Run Configuration</value>
     <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.MaemoRunConfiguration</value>
     <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.Arguments" type="QVariantList"/>
-    <valuemap key="Qt4ProjectManager.MaemoRunConfiguration.DebuggingHelpersLastDeployed" type="QVariantMap"/>
     <value key="Qt4ProjectManager.MaemoRunConfiguration.DeviceId" type="qulonglong">17</value>
-    <valuemap key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployed" type="QVariantMap">
-     <value key="192.168.2.15" type="QDateTime">2010-09-08T15:52:20</value>
-    </valuemap>
+    <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedFiles" type="QVariantList">
+     <value type="QString">/holvi/heli/ohjelmointi/KitchenAlert-build-maemo/kitchenalert_0.0.1_armel.deb</value>
+     <value type="QString">192.168.2.15</value>
+    </valuelist>
+    <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedHosts" type="QVariantList">
+     <value type="QString">192.168.2.15</value>
+     <value type="QString">/holvi/heli/ohjelmointi/KitchenAlert-build-maemo/kitchenalert_0.0.1_armel.deb</value>
+    </valuelist>
+    <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedRemotePaths" type="QVariantList">
+     <value type="QString">/home/developer/kitchenalert_0.0.1_armel.deb</value>
+     <value type="QString">/home/developer/kitchenalert_0.0.1_armel.deb</value>
+    </valuelist>
+    <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedTimes" type="QVariantList">
+     <value type="QDateTime">2010-09-19T21:36:38</value>
+     <value type="QDateTime">2010-09-20T14:15:54</value>
+    </valuelist>
    </valuemap>
    <value key="ProjectExplorer.Target.RunConfigurationCount" type="int">1</value>
   </valuemap>

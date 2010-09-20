@@ -201,7 +201,7 @@ void CurrentAlertsTableModel::addTimers(QList <Timer *> timers, bool startImmedi
 //preparatory work
     foreach (Timer* timer, timers)
     {
-        connect (timer,SIGNAL(remainingTimeChanged()),this,SLOT(refreshTimeColumn()));
+        connect (timer,SIGNAL(remainingTimeChanged()),this,SLOT(refreshTimeAndStatusColumns()));
 //        qDebug() << "timer connected";
         timer->setParent(this); //The model becomes the timers parent giving the timer access to model
     }
@@ -226,12 +226,12 @@ void CurrentAlertsTableModel::addTimers(QList <Timer *> timers, bool startImmedi
 }
 
 
-void CurrentAlertsTableModel::refreshTimeColumn()
+void CurrentAlertsTableModel::refreshTimeAndStatusColumns()
 {
     if (updateViewOnChanges_ == true) //Only update GUI if active to save battery
     {
-        emit dataChanged(createIndex(0,1),createIndex(rowCount(QModelIndex())-1,1));  //Entire time column refreshed
-//        qDebug() << "Refresh time column";
+        emit dataChanged(createIndex(0,1),createIndex((rowCount(QModelIndex())-1),2));  //Entire time and status columns refreshed
+
 
     }
 
@@ -245,7 +245,7 @@ void CurrentAlertsTableModel::startTimer(QModelIndex index)
     if (ptimer != NULL)
     {
         ptimer->start();
-        refreshTimeColumn();
+        refreshTimeAndStatusColumns();
     }
 }
 
@@ -255,7 +255,7 @@ void CurrentAlertsTableModel::stopTimer(QModelIndex index)
     if (ptimer != NULL)
     {
         ptimer->stop();
-        refreshTimeColumn();
+        refreshTimeAndStatusColumns();
     }
 }
 
@@ -265,7 +265,7 @@ void CurrentAlertsTableModel::snoozeTimer(QModelIndex index)
     if (ptimer != NULL)
     {
         ptimer->snooze();
-        refreshTimeColumn();
+        refreshTimeAndStatusColumns();
     }
 }
 
@@ -293,7 +293,7 @@ void CurrentAlertsTableModel::setUpdateViewOnChanges(bool update)
 {
     updateViewOnChanges_ = update;
     if (update == true)
-        refreshTimeColumn(); //Refresh to catch up with past changes
+        refreshTimeAndStatusColumns(); //Refresh to catch up with past changes
 }
 
 bool CurrentAlertsTableModel::isThisTimerAlerting(QModelIndex index)

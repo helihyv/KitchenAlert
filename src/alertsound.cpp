@@ -66,6 +66,8 @@ void AlertSound::stop()
     pSound_->stop();
 }
 
+
+
 void AlertSound::setSound(QString filename)
 {
    QSettings settings("KitchenAlert","KitchenAlert");

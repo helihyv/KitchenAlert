@@ -97,9 +97,11 @@ public slots:
     void addTimers(QList <Timer *> timers, bool startImmediately = true);
 
     /*!
-     Tells the view to refresh all information in the time column.
+     Tells the view to refresh all information in the time and status columns.
+     (The time and status change without user inervention unlike the alert text and thus
+     need to be refreshed.)
       */
-    void refreshTimeColumn ();
+    void refreshTimeAndStatusColumns ();
 
     /*!
       Passes the start command to the timer in the given index.

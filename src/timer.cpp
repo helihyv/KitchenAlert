@@ -108,7 +108,7 @@ void Timer::start()
 void Timer::stop()
 {
     _actualTimer.stop();
-    _remainingTime = 0; //Stopped timer shows 00:00:00 (which unfortunately makes it red...)
+    _remainingTime = 0; //Stopped timer shows 00:00:00
 
     alerting_ = false;
     alertSound_.stop();
@@ -145,4 +145,15 @@ QModelIndex Timer::whereAmI()
 
 
 }
+
+void Timer::enableDefaultSound()
+{
+alertSound_.setDefaultSound();
+}
+
+void Timer::changeAlertSound(QString filename)
+{
+alertSound_.setSound(filename);
+}
+
 
