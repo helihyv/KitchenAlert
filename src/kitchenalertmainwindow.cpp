@@ -178,6 +178,7 @@ void KitchenAlertMainWindow::alert(QModelIndex indexOfAlerter)
 
     // The alerting timer is selected
     ui->ComingAlertsTableView->selectionModel()->select(QItemSelection(indexOfAlerter,indexOfAlerter),QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows );
+    ui->ComingAlertsTableView->scrollTo(indexOfAlerter);
     qDebug() << "Should be selected now";
 
 
@@ -270,7 +271,7 @@ QModelIndex KitchenAlertMainWindow::selectedRow()
 
 void KitchenAlertMainWindow::openSelectSoundDialog()
 {
-    //THIS CEASED TO WORK WHEN SOUND WAS MOVED TO TIMERS THEMSELVES
+
     SelectSoundDialog dialog;
    if ( dialog.exec() == QDialog::Accepted) //if user pressed OK
     {

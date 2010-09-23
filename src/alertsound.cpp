@@ -33,6 +33,8 @@ AlertSound::AlertSound(QObject *parent) :
     QObject(parent)
 {
 
+    //THIS NEEDS TESTING: DOES IT REALLY CHANGE TUNE WHEN RESTARTING THE APPLICATION?
+
     defaultsound_ = "/opt/KitchenAlert/06capemaycloser_modifiedlouder.mp3";
     QString filename;
 

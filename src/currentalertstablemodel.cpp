@@ -84,16 +84,16 @@ QVariant CurrentAlertsTableModel::data(const QModelIndex &index, int role) const
 
             case alertTextColumnNumber_:
 
-                return int (Qt::AlignLeft || Qt::AlignVCenter);
+                return int (Qt::AlignLeft | Qt::AlignVCenter);
 
 
             case timeRemainingColumnNumber_:
 
-                return int (Qt::AlignRight || Qt::AlignVCenter);
+                return int (Qt::AlignRight | Qt::AlignVCenter);
 
             case statusColumnNumber_:
 
-                return int (Qt::AlignLeft || Qt::AlignVCenter);
+                return int (Qt::AlignLeft | Qt::AlignVCenter);
 
             }
 
