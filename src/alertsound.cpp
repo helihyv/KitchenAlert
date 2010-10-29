@@ -35,7 +35,7 @@ AlertSound::AlertSound(QObject *parent) :
 
     //THIS NEEDS TESTING: DOES IT REALLY CHANGE TUNE WHEN RESTARTING THE APPLICATION?
 
-    defaultsound_ = "/opt/KitchenAlert/06capemaycloser_modifiedlouder.mp3";
+    defaultsound_ = "/home/opt/KitchenAlert/Doorbell-old-tring-modified-multiplied-low-quality.mp3";
     QString filename;
 
     QSettings settings("KitchenAlert","KitchenAlert");
@@ -53,6 +53,15 @@ AlertSound::AlertSound(QObject *parent) :
         filename = settings.value("soundfile",defaultsound_).toString();
     }
     pSound_ = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(filename));
+}
+
+AlertSound::~AlertSound()
+{
+
+    if (pSound_ != NULL)
+    {
+        delete pSound_;
+    }
 }
 
 void AlertSound::play()

@@ -40,8 +40,8 @@ namespace Ui {
 /*! The main window class of KitchenAlert'
 
   @author Heli Hyvättinen
-  @date 2010-09-08
-  @version 0.1.1
+  @date 2010-09-27
+  @version 0.2.0
 
 Operates the UI.
 
@@ -112,6 +112,11 @@ public slots:
     */
     void stop();
 
+    /*! Removes the timer selected.
+      Needs to be connected to the associated button.
+       */
+    void remove();
+
 signals:
 
     void defaultSoundEnabled();
@@ -139,7 +144,7 @@ private:
     CurrentAlertsTableModel model_; /*! The model that stores the alerts */
 
     /*!
-    Returns a QMoldelIndex pointing to a cell in the row that is currently selected.
+    Returns a QMoldelIndex pointing to the cell in the column 0 of the row that is currently selected.
     */
     QModelIndex selectedRow();
 

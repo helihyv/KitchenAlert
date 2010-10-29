@@ -88,7 +88,7 @@ KitchenAlertMainWindow::KitchenAlertMainWindow(QWidget *parent) :
   connect(ui->DoneButton,SIGNAL(clicked()),this,SLOT(stop()));
   connect(ui->RestartButton,SIGNAL(clicked()),this,SLOT(restart()));
   connect(ui->SnoozeButton,SIGNAL(clicked()),this, SLOT(snooze()));
-
+  connect(ui->RemoveButton,SIGNAL(clicked()),this,SLOT(remove()));
   // menu setup
 
   QAction * p_SelectSoundAction = new QAction(tr("Select alert sound"),this);
@@ -178,8 +178,11 @@ void KitchenAlertMainWindow::alert(QModelIndex indexOfAlerter)
 
     // The alerting timer is selected
     ui->ComingAlertsTableView->selectionModel()->select(QItemSelection(indexOfAlerter,indexOfAlerter),QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows );
+
+    //Scrolls the view so that the alerting timer is visible
     ui->ComingAlertsTableView->scrollTo(indexOfAlerter);
-    qDebug() << "Should be selected now";
+
+   // qDebug() << "Should be selected now";
 
 
     //Snooze button is enabled
@@ -205,6 +208,7 @@ void KitchenAlertMainWindow::timerSelected(QItemSelection selected,QItemSelectio
 {
     ui->DoneButton->setEnabled(true);
     ui->RestartButton->setEnabled(true);
+    ui->RemoveButton->setEnabled(true);
 
 
     //snooze button enabled only when alerting
@@ -261,10 +265,12 @@ void KitchenAlertMainWindow::stop()
 
 QModelIndex KitchenAlertMainWindow::selectedRow()
 {
+    //Returns the cells in row 0 that have the whole row selected (the selection mode used allows only selecting whole rows
+
     QModelIndexList chosenRows = ui->ComingAlertsTableView->selectionModel()->selectedRows();
 
     //The selection mode used allows only one row to be selected at time, so we just take the first
-    //There are indexes for all columns in the row in the list, but as we only use the row, it does not matter which one we take
+
 
     return chosenRows.value(0); //gives an invalid QModelIndex if the list is empty
 }
@@ -300,15 +306,17 @@ bool KitchenAlertMainWindow::event(QEvent *event)
 
     switch (event->type())
     {
-        case QEvent::WindowActivate:
+        case QEvent::ApplicationActivate:
 
             model_.setUpdateViewOnChanges(true);
+            ui->debugLabel->setText("Returned to the application!");
 
 
               break;
 
-       case QEvent::WindowDeactivate:
+       case QEvent::ApplicationDeactivate:
             model_.setUpdateViewOnChanges(false);
+            ui->debugLabel->setText("");
             break;
 
        default:
@@ -323,6 +331,7 @@ void KitchenAlertMainWindow::disableSelectionDependentButtons()
     ui->DoneButton->setDisabled(true);
     ui->SnoozeButton->setDisabled(true);
     ui->RestartButton->setDisabled(true);
+    ui->RemoveButton->setDisabled(true);
 
 }
 
@@ -350,4 +359,19 @@ void KitchenAlertMainWindow::initializeAlertSound()
 
    }
 
+}
+
+void KitchenAlertMainWindow::remove()
+{
+    QModelIndex row = selectedRow();
+    if (row.isValid()) //If there was no row selected invalid row was returned
+    {
+        QString text = tr("Are you sure you want to remove this timer from the list:\n");
+        text.append((row.data().toString()));
+        if (QMessageBox::question(this,tr("Confirm timer removal"),text,QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+        {
+            model_.removeTimer(row);
+        }
+    }
+    ui->SnoozeButton->setDisabled(true);
 }

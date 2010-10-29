@@ -293,8 +293,11 @@ void CurrentAlertsTableModel::setUpdateViewOnChanges(bool update)
 {
     updateViewOnChanges_ = update;
     if (update == true)
+    {
         refreshTimeAndStatusColumns(); //Refresh to catch up with past changes
-}
+        qDebug() << "Just refreshed time and status colums after returning to the app";
+    }
+    }
 
 bool CurrentAlertsTableModel::isThisTimerAlerting(QModelIndex index)
 {
@@ -308,3 +311,17 @@ bool CurrentAlertsTableModel::isThisTimerAlerting(QModelIndex index)
     }
     return false;
 }
+
+void CurrentAlertsTableModel::removeTimer(QModelIndex index)
+{
+    if (index.isValid() == false)
+        return;
+
+    int i = index.row();
+    beginRemoveRows(QModelIndex(),i,i);
+    Timer * p_timer = currentTimers_.takeAt(i);
+    delete p_timer;
+    endRemoveRows();
+
+}
+

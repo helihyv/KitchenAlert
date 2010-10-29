@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     a.setApplicationName("KitchenAlert"); //a name is required by phonon
-    a.setApplicationVersion("0.1.1");
+    a.setApplicationVersion("0.2.0");
     a.setOrganizationName("KitchenAlert");
     KitchenAlertMainWindow w;
 #if defined(Q_WS_S60)

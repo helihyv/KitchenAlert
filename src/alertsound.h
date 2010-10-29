@@ -37,8 +37,8 @@
 /*! Class for playing the alert sound'
 
   @author Heli Hyvättinen
-  @date 2010-07-20
-  @version 0.1
+  @date 2010-09-27
+  @version 0.2.0
 
 Class for playing (and stopping) the alert sound.
 
@@ -49,6 +49,8 @@ class AlertSound : public QObject
     Q_OBJECT
 public:
     explicit AlertSound(QObject *parent = 0);
+
+    virtual ~AlertSound();
 
 signals:
 
@@ -62,6 +64,7 @@ public slots:
     /*! Changes the sound file (both current and saved in settings) */
     void setSound(QString filename);
 
+    /*! Switches to using the default sound and saves this behaviour in settings */
     void setDefaultSound();
 
 private:

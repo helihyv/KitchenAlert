@@ -63,24 +63,42 @@ public:
     /*! Returns the time remaining before the alert in seconds       */
     int getRemainingTimeInSeconds();
 
+    /*! Returns the alert text */
     QString getAlertText();
+
+    /*! Sets the alert text */
     void setAlertText(QString text);
 
+    /*! Returns whether the timer is alerting */
     bool isAlerting();
 
 
 signals:
-
+    /*! Emitted when the remaining time in the timer has changed */
     void remainingTimeChanged();
+
+    /*! Emitted when the timer alerts */
     void alert(QModelIndex indexOfAlerter);
 
 public slots:
+    /*! The internal QTimer is connected to this slot */
     void secondPassed();
+
+    /*! Start the timer */
     void start();
+
+    /*! Stop the timer*/
     void stop();
+
+    /*! Snooze the timer
+        Currently sets the timer to alert again in two minutes.
+    */
     void snooze();
 
+    /*! Switches to use the default sound (and saves it to settings */
     void enableDefaultSound();
+
+    /*! Changes the sound file used and saves it to settings */
     void changeAlertSound(QString filename);
 
 

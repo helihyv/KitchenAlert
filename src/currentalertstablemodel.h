@@ -35,7 +35,7 @@
 /*! Class that contains the model that holds the timers'
 
   @author Heli Hyvättinen
-  @date 2010-09-08
+  @date 2010-09-27
   @version 0.1.1
 
 Class that contains the model that holds the timers
@@ -85,6 +85,7 @@ public:
       */
     bool isThisTimerAlerting(QModelIndex index);
 
+
 signals:
 
 public slots:
@@ -126,6 +127,14 @@ public slots:
 Sets whether the view should be kept up to date.
 */
     void setUpdateViewOnChanges(bool update);
+
+/*!
+  Removes a timer from the model
+  */
+
+    void removeTimer(QModelIndex index);
+
+
 
 private:
     QList <Timer * > currentTimers_; /*! Holds the timers */
