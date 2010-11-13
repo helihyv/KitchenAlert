@@ -173,8 +173,9 @@ void KitchenAlertMainWindow::alert(QModelIndex indexOfAlerter)
 
     // The program is brought to front and activated when alerted
 
-    raise();
+
     activateWindow();
+    raise();
 
     // The alerting timer is selected
     ui->ComingAlertsTableView->selectionModel()->select(QItemSelection(indexOfAlerter,indexOfAlerter),QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows );
@@ -306,7 +307,7 @@ bool KitchenAlertMainWindow::event(QEvent *event)
 
     switch (event->type())
     {
-        case QEvent::ApplicationActivate:
+        case QEvent::WindowActivate:
 
             model_.setUpdateViewOnChanges(true);
             ui->debugLabel->setText("Returned to the application!");
@@ -314,7 +315,7 @@ bool KitchenAlertMainWindow::event(QEvent *event)
 
               break;
 
-       case QEvent::ApplicationDeactivate:
+       case QEvent::WindowDeactivate:
             model_.setUpdateViewOnChanges(false);
             ui->debugLabel->setText("");
             break;
