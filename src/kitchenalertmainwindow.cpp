@@ -301,8 +301,6 @@ void KitchenAlertMainWindow::openAbout()
 
 bool KitchenAlertMainWindow::event(QEvent *event)
 {
-    QMainWindow::event(event);
-
 
 
     switch (event->type())
@@ -311,9 +309,7 @@ bool KitchenAlertMainWindow::event(QEvent *event)
 
             model_.setUpdateViewOnChanges(true);
             ui->debugLabel->setText("Returned to the application!");
-
-
-              break;
+            break;
 
        case QEvent::WindowDeactivate:
             model_.setUpdateViewOnChanges(false);
@@ -323,8 +319,9 @@ bool KitchenAlertMainWindow::event(QEvent *event)
        default:
             break;
 
-
     }
+
+    return QMainWindow::event(event); // Send the event to the base class implementation (also when handling the event in this function): necessary for the program to work!
 }
 
 void KitchenAlertMainWindow::disableSelectionDependentButtons()
