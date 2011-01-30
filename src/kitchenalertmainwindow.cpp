@@ -193,7 +193,7 @@ void KitchenAlertMainWindow::alert(QModelIndex indexOfAlerter)
 
 
     ui->SnoozeButton->setEnabled(true);
-qDebug ("Snooze päälle hälytyksessä");
+//qDebug ("Snooze on when alerting");
 
 }
 
@@ -215,12 +215,12 @@ void KitchenAlertMainWindow::timerSelected(QItemSelection selected,QItemSelectio
         if (model_.isThisTimerAlerting(index) == true)
         {
              ui->SnoozeButton->setEnabled(true);
-qDebug() << "Snooze päälle";
+//qDebug() << "Snooze on";
         }
         else
         {
             ui->SnoozeButton->setDisabled(true);
-qDebug() << "Snooze pois päältä";
+//qDebug() << "Snooze off";
         }
     }
 
@@ -234,7 +234,7 @@ void KitchenAlertMainWindow::snooze()
         model_.snoozeTimer(row);
     }
     ui->SnoozeButton->setDisabled(true);
-  //  alertSound_.stop();
+
 
 }
 
@@ -248,9 +248,12 @@ void KitchenAlertMainWindow::restart()
     }
 
 
-    ui->SnoozeButton->setDisabled(true);
-    qDebug () << "disabled snooze because of restart";
- //   alertSound_.stop();
+   if (model_.isThisTimerAlerting(row) == false) //This has to be checked, because 00:00:00 alerts alert *before* the program execution reaches here
+    {
+        ui->SnoozeButton->setDisabled(true);
+    }
+ //   qDebug () << "disabled snooze because of restart";
+
 
 }
 
@@ -262,7 +265,7 @@ void KitchenAlertMainWindow::stop()
         model_.stopTimer(row);
     }
     ui->SnoozeButton->setDisabled(true);
-//    alertSound_.stop();
+
 }
 
 QModelIndex KitchenAlertMainWindow::selectedRow()
