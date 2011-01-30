@@ -93,7 +93,7 @@ void Timer::start()
         alerting_  = true;
         alertSound_.play();
         emit alert(whereAmI());
-        qDebug () << "Alerting 00:00:00 from row: " << whereAmI().row();
+//        qDebug () << "Alerting 00:00:00 from row: " << whereAmI().row();
     }
 
     else

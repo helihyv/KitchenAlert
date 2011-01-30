@@ -49,7 +49,7 @@ SelectSoundDialog::SelectSoundDialog(QWidget *parent) :
         ui->lineEdit->setDisabled(true);
     }
     else ui->CustomSoundRadioButton->setChecked(true);
-    qDebug() << "UseDefaultSoundfile is " << useDefaultSoundFile;
+//    qDebug() << "UseDefaultSoundfile is " << useDefaultSoundFile;
 }
 
 SelectSoundDialog::~SelectSoundDialog()

@@ -137,7 +137,7 @@ void KitchenAlertMainWindow::newTimerSequence()
 
        connect(timer1,SIGNAL(alert(QModelIndex)),this,SLOT(alert(QModelIndex)));
 
-       //TODO: FIND A WAY TO INFORM THE TIMERS' ALERTSOUND'S OF A CHANGE OF THE SOUND FILE THEY SHOULD USE!!!!
+
 
        connect(this,SIGNAL(defaultSoundEnabled()),timer1,SLOT(enableDefaultSound()));
        connect(this,SIGNAL(soundChanged(QString)),timer1,SLOT(changeAlertSound(QString)));
@@ -175,7 +175,10 @@ void KitchenAlertMainWindow::alert(QModelIndex indexOfAlerter)
 
 
     activateWindow();
-    raise();
+
+// removing everything below does not solve the bug #6752!
+
+    raise();  //this may be unnecessary
 
     // The alerting timer is selected
     ui->ComingAlertsTableView->selectionModel()->select(QItemSelection(indexOfAlerter,indexOfAlerter),QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows );
@@ -190,17 +193,7 @@ void KitchenAlertMainWindow::alert(QModelIndex indexOfAlerter)
 
 
     ui->SnoozeButton->setEnabled(true);
-
-    //Debug message
-
-
-
-    ui->debugLabel->setText(tr("Alert received from row %1").arg(indexOfAlerter.row()));
-    qDebug() << "Wrote the debug message";
-
-    //The alert sound is played
-   //TESTING TO MOVE THIS OPERATION TO THE TIMER ITSELF
-//    alertSound_.play();
+qDebug ("Snooze päälle hälytyksessä");
 
 }
 
@@ -222,8 +215,13 @@ void KitchenAlertMainWindow::timerSelected(QItemSelection selected,QItemSelectio
         if (model_.isThisTimerAlerting(index) == true)
         {
              ui->SnoozeButton->setEnabled(true);
+qDebug() << "Snooze päälle";
         }
-        else ui->SnoozeButton->setDisabled(true);
+        else
+        {
+            ui->SnoozeButton->setDisabled(true);
+qDebug() << "Snooze pois päältä";
+        }
     }
 
 }
@@ -248,7 +246,10 @@ void KitchenAlertMainWindow::restart()
 
         model_.startTimer(row);
     }
+
+
     ui->SnoozeButton->setDisabled(true);
+    qDebug () << "disabled snooze because of restart";
  //   alertSound_.stop();
 
 }
@@ -308,12 +309,12 @@ bool KitchenAlertMainWindow::event(QEvent *event)
         case QEvent::WindowActivate:
 
             model_.setUpdateViewOnChanges(true);
-            ui->debugLabel->setText("Returned to the application!");
+//            ui->debugLabel->setText("Returned to the application!");
             break;
 
        case QEvent::WindowDeactivate:
             model_.setUpdateViewOnChanges(false);
-            ui->debugLabel->setText("");
+//            ui->debugLabel->setText("");
             break;
 
        default:

@@ -43,7 +43,7 @@ AlertSound::AlertSound(QObject *parent) :
    // settings.clear(); //REMOVE THIS AFTER TESTING!!!!!!
 
     bool useDefaultSound = settings.value("UseDefaultSound",true).toBool();
-    qDebug() << "In AlertSound constructor UseDefaultSound is " << useDefaultSound;
+//    qDebug() << "In AlertSound constructor UseDefaultSound is " << useDefaultSound;
     if (useDefaultSound == true)
     {
         filename = defaultsound_;
@@ -66,7 +66,7 @@ AlertSound::~AlertSound()
 
 void AlertSound::play()
 {
-    pSound_->stop(); //Just testing if stopping the previous alert will prevent the jammming of the sound
+    pSound_->stop(); //Just testing if stopping the previous alert will prevent the jammming of the sound (only partially, but since it helped some, keeping it even if the problem was solved otherwise)
     pSound_->play();
     qDebug() << "Sound should be played now";
 }
@@ -75,6 +75,8 @@ void AlertSound::stop()
 {
 
     pSound_->stop();
+    qDebug() << pSound_->state();
+    qDebug() << "Sound stopped by AlertSound.";
 }
 
 

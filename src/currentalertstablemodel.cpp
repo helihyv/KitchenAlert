@@ -295,7 +295,7 @@ void CurrentAlertsTableModel::setUpdateViewOnChanges(bool update)
     if (update == true)
     {
         refreshTimeAndStatusColumns(); //Refresh to catch up with past changes
-        qDebug() << "Just refreshed time and status colums after returning to the app";
+//        qDebug() << "Just refreshed time and status colums after returning to the app";
     }
     }
 
