@@ -40,7 +40,7 @@ namespace Ui {
 /*! The main window class of KitchenAlert'
 
   @author Heli Hyvättinen
-  @date 2010-11-24
+  @date 2011-02-10
   @version 0.2.0
 
 Operates the UI.
@@ -148,7 +148,6 @@ private:
     */
     QModelIndex selectedRow();
 
-    AlertSound alertSound_; /*! Takes care of alert sound */ //This has been moved to the timers themselves
 
     /*!
     Not used. Would allow getting rid of the default sound if used.

@@ -28,7 +28,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    a.setApplicationName("KitchenAlert"); //a name is required by phonon
+    a.setApplicationName("KitchenAlert"); //a name is required to connect to DBus
     a.setApplicationVersion("0.2.0");
     a.setOrganizationName("KitchenAlert");
     KitchenAlertMainWindow w;

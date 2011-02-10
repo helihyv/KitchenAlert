@@ -29,11 +29,11 @@
 
 
 
+
+
 AlertSound::AlertSound(QObject *parent) :
     QObject(parent)
 {
-
-    //THIS NEEDS TESTING: DOES IT REALLY CHANGE TUNE WHEN RESTARTING THE APPLICATION?
 
     defaultsound_ = "/home/opt/KitchenAlert/Doorbell-old-tring-modified-multiplied-low-quality.mp3";
     QString filename;
@@ -52,7 +52,25 @@ AlertSound::AlertSound(QObject *parent) :
     {
         filename = settings.value("soundfile",defaultsound_).toString();
     }
-    pSound_ = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(filename));
+
+
+
+      pSound_ = new QMediaPlayer;
+      pSound_->setMedia(QUrl::fromLocalFile(filename));
+ //   player->setVolume(50);
+
+
+/* NOTE:
+   sound priorities are set in /usr/share/policy/etc/current/pulse/xpolicy.conf
+
+This block needs to be appended to this file in the postinstall script
+[stream]
+exe = kitchenalert
+group   = alarm
+
+*/
+
+
 }
 
 AlertSound::~AlertSound()
@@ -66,32 +84,28 @@ AlertSound::~AlertSound()
 
 void AlertSound::play()
 {
-    pSound_->stop(); //Just testing if stopping the previous alert will prevent the jammming of the sound (only partially, but since it helped some, keeping it even if the problem was solved otherwise)
-    pSound_->play();
-    qDebug() << "Sound should be played now";
+     pSound_->play();
+  //  qDebug() << "Sound should be played now";
 }
 
 void AlertSound::stop()
 {
 
     pSound_->stop();
-    qDebug() << pSound_->state();
-    qDebug() << "Sound stopped by AlertSound.";
+//    qDebug() << pSound_->state();
+//    qDebug() << "Sound stopped by AlertSound.";
 }
 
 
 
 void AlertSound::setSound(QString filename)
 {
-   QSettings settings("KitchenAlert","KitchenAlert");
-   settings.setValue("UseDefaultSound",false);
-   settings.setValue("soundfile",filename);
-   pSound_->setCurrentSource(filename);
+
+   pSound_->setMedia(QUrl::fromLocalFile(filename));
 }
 
 void AlertSound::setDefaultSound()
 {
-    QSettings settings ("KitchenAlert","KitchenAlert");
-    settings.setValue("UseDefaultSound",true);
-    pSound_->setCurrentSource(defaultsound_);
+
+    pSound_->setMedia(QUrl::fromLocalFile(defaultsound_));
 }

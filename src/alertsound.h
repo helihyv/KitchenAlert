@@ -29,15 +29,13 @@
 
 #include <QObject>
 
-
-
-#include <Phonon>
+#include <QMediaPlayer>
 
 
 /*! Class for playing the alert sound'
 
   @author Heli Hyvättinen
-  @date 2010-09-27
+  @date 2011-02-10
   @version 0.2.0
 
 Class for playing (and stopping) the alert sound.
@@ -71,8 +69,8 @@ private:
 
 
 
-    Phonon::MediaObject *pSound_;
-    QString defaultsound_;
+   QMediaPlayer *pSound_;
+   QString defaultsound_;
 
 
 };

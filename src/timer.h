@@ -39,8 +39,8 @@
 /*! The timer class of KitchenAlert'
 
   @author Heli Hyvättinen
-  @date 2010-09-08
-  @version 0.1.1
+  @date 2011-02-10
+  @version 0.2.0
 
 The timer class of KitchenAlert.
 

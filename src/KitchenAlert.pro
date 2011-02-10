@@ -5,7 +5,8 @@
 #-------------------------------------------------
 
 QT       += core gui
-QT      += phonon
+
+
 
 TARGET = KitchenAlert
 TEMPLATE = app
@@ -41,3 +42,7 @@ symbian {
 
 RESOURCES += \
     kitchenalert.qrc
+
+CONFIG += mobility
+MOBILITY += multimedia
+
