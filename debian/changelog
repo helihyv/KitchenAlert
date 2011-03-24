@@ -1,0 +1,25 @@
+kitchenalert (0.2.0-1) unstable; urgency=low
+
+  * finger-friendlier alert list
+  * long alert texts now split to multiple lines (no more horizontal scrolling)
+  * the system now treats the alert sound as an "alarm" and thus should no longer block it if MediaPlayer is playing (fixes #6807) (pulseaudio is restarted during installation for this to take effect)  
+  * stopping one timer no longer silences all timers if more than one is playing the alert sound
+  * timers can now be removed from the list
+  * a new default sound
+  * alert sound no longer jams when several timers alert close to each other (fixes #6381)
+  * selection no longer lost when re-entering the app (fixes #6346)
+  * "done" button renamed to "stop"
+  * the view now scrolls to the alerting timer
+  * a new icon
+  * uses QtMultimedia instead of Phonon
+  * a decent copyright file included
+  * no longer installs useless doc files  
+  
+
+ -- Heli Hyvättinen <heli.hyvattinen@kymp.net>  Thu, 24 March 2011 21:28:00 +0300
+
+kitchenalert (0.1-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Heli Hyvättinen <heli.hyvattinen@kymp.net>  Tue, 20 Jul 2010 07:28:36 +0300
