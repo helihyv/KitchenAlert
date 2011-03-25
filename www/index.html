@@ -4,6 +4,7 @@
 
 
 
+
   
   <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>KitchenAlert</title></head><body>
 <table style="text-align: left; width: 640px; margin-left: auto; margin-right: auto;" border="0" cellpadding="2" cellspacing="2">
@@ -22,20 +23,17 @@
       <td style="vertical-align: top;"><br>
       <span style="font-family: Helvetica,Arial,sans-serif;">KitchenAlert
 is a timer application for maemo5 (in practise Nokia's N900 device),
-designed to suite especially cooking and baking purposes. An early
-version (0.1) is available.<br>
-      <br>Playing
-music overrides the alert, and the alert sound is not played.
-KitchenAlert obeys the volume setting of the device. It is highly
+designed to suite especially cooking and baking purposes. <span style="font-weight: bold;">A new&nbsp;
+version (0.2.0) is&nbsp; now available.</span> <br>
+      <br>KitchenAlert obeys the volume setting of the device. It is highly
 recommended to test whether you can hear the alert from where you will
 be keeping your phone before actually using it to alert you of
-something. Even more so if using the default sound, which is not really
-as loud or clear as it should be.<br>
+something. During phone calls all alerts are omitted.<br>
       </span><span style="font-family: Helvetica,Arial,sans-serif;"></span><br>
       <span style="font-family: Helvetica,Arial,sans-serif;"></span><span style="font-family: Helvetica,Arial,sans-serif;"></span> </td>
     </tr>
     <tr align="center">
-      <td style="vertical-align: top;"><img style="width: 400px; height: 240px;" alt="" src="screenshot23.png" align="top"> </td>
+      <td style="vertical-align: top;"><img style="width: 400px; height: 240px;" alt="" src="Screenshot-20110325-152215.png" align="top"> </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
@@ -43,18 +41,11 @@ as loud or clear as it should be.<br>
       <h3><span style="font-family: Helvetica,Arial,sans-serif;">Features and bugs<br>
       </span></h3>
 
-      <span style="font-family: Helvetica,Arial,sans-serif;">The
-alert will not be played if the device is playing another sound thatr
-overrides it, e.g. when playing music with mediaplayer.<br>
+      <span style="font-family: Helvetica,Arial,sans-serif;">Multiple
+timers can be run simultaneously.&nbsp; </span><br>
+      <span style="font-family: Helvetica,Arial,sans-serif;">
       <br>
-Multiple
-timers can be run simultaneously. However, if&nbsp; timers alert very
-close to each other, the alert sound can be jammed (silences) and won't
-recover. So no sound for alerts after that until you restart the
-application. Also, running several timers for several hours may drain
-your battery.<br>
-      <br>
-</span>
+      </span>
       <span style="font-family: Helvetica,Arial,sans-serif;">The alarm
 sound
 can
@@ -67,12 +58,46 @@ use its audio stripe. <br>
       <br>
 A default alarm sound is also provided. The current one is modified
 from a</span><span style="font-family: Helvetica,Arial,sans-serif;">
-public domain </span><span style="font-family: Helvetica,Arial,sans-serif;">birdssound from <a href="http://www.fws.gov/video/sound.htm">U.S.
-Fish and Wildlife Service</a>.<br>
+      <a href="http://commons.wikimedia.org/wiki/File:Doorbell-old-tring.ogg">public domain </a></span><span style="font-family: Helvetica,Arial,sans-serif;"><a href="http://commons.wikimedia.org/wiki/File:Doorbell-old-tring.ogg">doorbell ring</a>. </span><span style="font-family: Helvetica,Arial,sans-serif;">The loudness of
+the default sound is chosen on basis of not hurting your ears if using
+headphones at high volume. On noisy situations a louder sound may be needed.</span><br>
+      <span style="font-family: Helvetica,Arial,sans-serif;"><br>
+      </span><span style="font-family: Helvetica,Arial,sans-serif;">The
+alert sound
+is treated as belonging to the group "alarm" by the system. Actual
+behavior will depend on the settings for this group. With a freshly
+installed PR 1.3 global image, the alarm is played even if the silent
+mode is on. Also, it&nbsp; plays at lower volume on top of music
+when mediaplayer is playing. With loud music, the alarm may not be
+audible.</span><br>
+      <br>
+      <span style="font-family: Helvetica,Arial,sans-serif;">The
+application sometimes auto-minimizes itself when the device is
+unlocked. Sometimes the "stop" button needs to be pressed twice to
+silence an alert (the first one stops it, but the sound keeps playing).<br>
+Running several timers for several hours risks draining
+your battery.</span><br>
+      <span style="font-family: Helvetica,Arial,sans-serif;">
       <br>
       </span></td>
     </tr>
     <tr>
+      <td style="vertical-align: top;">
+      <h3>New in version 0.2.0</h3>
+      <ul>
+        <li><span style="font-family: Helvetica,Arial,sans-serif;">improved and finger-friendlier user interface</span></li>
+        <li><span style="font-family: Helvetica,Arial,sans-serif;">removing alerts from the list is now possible</span></li>
+        <li><span style="font-family: Helvetica,Arial,sans-serif;">the alert sound is now played also when MediaPlayer is playing. (Loud alert sound may be needed for hearing it over the music, though.)<br>
+          </span></li>
+        <li><span style="font-family: Helvetica,Arial,sans-serif;">alert sound no longer jams when several timers alert close to each other</span></li>
+        <li><span style="font-family: Helvetica,Arial,sans-serif;">stopping one alert no longer silences all alerts</span></li>
+        <li><span style="font-family: Helvetica,Arial,sans-serif;">zero second alerts alert now<br>
+          </span></li>
+        <li><span style="font-family: Helvetica,Arial,sans-serif;">a new default sound and a new desktop icon</span></li>
+      </ul>
+      </td>
+    </tr>
+<tr>
       <td style="vertical-align: top;">
       <h3><a name="Download"></a><span style="font-family: Helvetica,Arial,sans-serif;">Download</span></h3>
       <h3><span style="font-family: Helvetica,Arial,sans-serif;"></span></h3>
@@ -81,7 +106,7 @@ install
 KitchenAlert on your N900 from the <a href="http://wiki.maemo.org/Extras-devel">extras-devel</a>
 repository.&nbsp; However, as
 usual for&nbsp;
-this repositories, it's not necessarily safe: </span><span style="font-family: Helvetica,Arial,sans-serif;">keep&nbsp; in mind the above cautions on volume settings, losing alert sound and battery drain.</span><span style="font-family: Helvetica,Arial,sans-serif;"> Remember to close the repository after installing to
+this repositories, it's not necessarily safe: </span><span style="font-family: Helvetica,Arial,sans-serif;">keep&nbsp; in mind the above cautions on volume and battery drain.</span><span style="font-family: Helvetica,Arial,sans-serif;"> Remember to close the repository after installing to
 avoid unwanted updating of your applications to development versions.<br>
       <br>
 Bug reports and feature requests are welcome on the application's <a href="https://garage.maemo.org/projects/kitchenalert/">garage project
