@@ -286,23 +286,10 @@ void KitchenAlertMainWindow::openSelectSoundDialog()
     SelectSoundDialog dialog;
    if ( dialog.exec() == QDialog::Accepted) //if user pressed OK
     {
-       QSettings settings ("KitchenAlert","KitchenAlert");
-
        if (dialog.isDefaultSoundChecked() == true)
-       {
-
-           settings.setValue("UseDefaultSound",true);
-
            emit defaultSoundEnabled();
-       }
        else
-       {
-           QString filename = dialog.getSoundFileName();
-           settings.setValue("UseDefaultSound",false);
-           settings.setValue("soundfile",filename);
-           emit soundChanged(filename);
-       }
-
+           emit soundChanged(dialog.getSoundFileName());
     }
 
 }
@@ -310,7 +297,7 @@ void KitchenAlertMainWindow::openSelectSoundDialog()
 void KitchenAlertMainWindow::openAbout()
 {
     QMessageBox::about(this,tr("About KitchenAlert"),tr("<p>Version %1"
-                                                        "<p>Copyright &copy; Heli Hyv&auml;ttinen 2010"
+                                                        "<p>Copyright &copy; Heli Hyv&auml;ttinen 2010-2011"
                                                          "<p>License: General Public License v3"
                                                          "<p>Web page: http://kitchenalert.garage.maemo.org/"
                                                          "<p>Bugtracker: https://garage.maemo.org/projects/kitchenalert/").arg(QApplication::applicationVersion()));
