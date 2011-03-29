@@ -2,7 +2,7 @@
 
         KitchenAlert
 
-        Copyright (C) 2010  Heli Hyvättinen
+        Copyright (C) 2010-2011  Heli Hyvättinen
 
         This file is part of KitchenAlert.
 
@@ -286,10 +286,22 @@ void KitchenAlertMainWindow::openSelectSoundDialog()
     SelectSoundDialog dialog;
    if ( dialog.exec() == QDialog::Accepted) //if user pressed OK
     {
+       QSettings settings ("KitchenAlert","KitchenAlert");
+      
        if (dialog.isDefaultSoundChecked() == true)
+       { 
+	 
+	   settings.setValue("UseDefaultSound",true); 
            emit defaultSoundEnabled();
-       else
-           emit soundChanged(dialog.getSoundFileName());
+       }   
+      else
+       {
+           QString filename = dialog.getSoundFileName();
+           settings.setValue("UseDefaultSound",false);
+           settings.setValue("soundfile",filename);
+           emit soundChanged(filename);
+       }
+
     }
 
 }
