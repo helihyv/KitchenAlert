@@ -1,7 +1,7 @@
 /**************************************************************************
         KitchenAlert
 
-        Copyright (C) 2010  Heli Hyvättinen
+        Copyright (C) 2010-2011  Heli Hyvättinen
 
         This file is part of KitchenAlert.
 
@@ -35,8 +35,8 @@
 /*! Class for playing the alert sound'
 
   @author Heli Hyvättinen
-  @date 2011-02-10
-  @version 0.2.0
+  @date 2011-03-29
+  @version 0.2.1
 
 Class for playing (and stopping) the alert sound.
 

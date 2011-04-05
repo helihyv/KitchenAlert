@@ -1,7 +1,7 @@
 /**************************************************************************
-        This file is part of KitchenAlert v.0.09
+        This file is part of KitchenAlert
 
-        Copyright (C) 2010  Heli Hyvättinen
+        Copyright (C) 2010-2011  Heli Hyvättinen
 
         Kitchen Alert is free software: you can redistribute it and/or modify
         it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ AlertSound::AlertSound(QObject *parent) :
     QObject(parent)
 {
 
-    defaultsound_ = "/home/opt/KitchenAlert/Doorbell-old-tring-modified-multiplied-low-quality.mp3";
+    defaultsound_ = "/home/opt/KitchenAlert/DoorbellModifiedFinal.mp3";
     QString filename;
 
     QSettings settings("KitchenAlert","KitchenAlert");
@@ -57,20 +57,6 @@ AlertSound::AlertSound(QObject *parent) :
 
       pSound_ = new QMediaPlayer;
       pSound_->setMedia(QUrl::fromLocalFile(filename));
- //   player->setVolume(50);
-
-
-/* NOTE:
-   sound priorities are set in /usr/share/policy/etc/current/pulse/xpolicy.conf
-
-This block needs to be appended to this file in the postinstall script
-[stream]
-exe = kitchenalert
-group   = alarm
-
-*/
-
-
 }
 
 AlertSound::~AlertSound()

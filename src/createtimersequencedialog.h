@@ -1,7 +1,7 @@
 /**************************************************************************
         KitchenAlert
 
-        Copyright (C) 2010  Heli Hyvättinen
+        Copyright (C) 2010-2011 Heli Hyvättinen
 
         This file is part of KitchenAlert.
 
@@ -39,8 +39,8 @@ namespace Ui {
 /*! Class for the dialog for creating timers'
 
   @author Heli Hyvättinen
-  @date 2010-07-20
-  @version 0.1
+  @date 2011-03-29
+  @version 0.2.1
 
 Class for the dialog for creating timers
 

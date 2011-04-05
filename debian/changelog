@@ -1,3 +1,10 @@
+kitchenalert (0.2.1-1) unstable; urgency=low
+
+  * restored the ability to change the alert sound when there are no alerts in the list (closes #6857)
+  * uses QtMultimedia instead of Phonon (this time for real)
+
+ -- Heli Hyvättinen <heli.hyvattinen@kymp.net>  Tue, 29 Mar 2011 21:09:03 +0300
+
 kitchenalert (0.2.0-1) unstable; urgency=low
 
   * finger-friendlier alert list

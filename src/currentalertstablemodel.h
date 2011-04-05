@@ -35,8 +35,8 @@
 /*! Class that contains the model that holds the timers'
 
   @author Heli Hyvättinen
-  @date 2011-02-10
-  @version 0.2.0
+  @date 2011-03-29
+  @version 0.2.1
 
 Class that contains the model that holds the timers
 

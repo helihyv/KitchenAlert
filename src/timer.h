@@ -1,7 +1,7 @@
 /**************************************************************************
         KitchenAlert
 
-        Copyright (C) 2010  Heli Hyvättinen
+        Copyright (C) 2010-2011  Heli Hyvättinen
 
         This file is part of KitchenAlert.
 
@@ -40,7 +40,7 @@
 
   @author Heli Hyvättinen
   @date 2011-02-10
-  @version 0.2.0
+  @version 0.2.1
 
 The timer class of KitchenAlert.
 
