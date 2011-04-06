@@ -110,6 +110,20 @@
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="SaveButton">
+           <property name="text">
+            <string>Save timer</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="OpenButton">
+           <property name="text">
+            <string>Open timer</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="horizontalSpacer_2">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>

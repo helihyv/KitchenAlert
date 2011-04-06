@@ -40,7 +40,7 @@ namespace Ui {
 /*! The main window class of KitchenAlert'
 
   @author Heli Hyvättinen
-  @date 2011-03-29
+  @date 2011-04-05
   @version 0.2.1
 
 Operates the UI.
@@ -117,6 +117,15 @@ public slots:
        */
     void remove();
 
+    /*! Opens a dialog for saving the selected timer and, if confirmed, saves the timer to a file.
+    */
+    void saveTimer();
+
+    /*! Opens a dialog for reading a timer from a timer file, and if confirmed opens and starts the timer.
+    */
+    void loadTimer();
+
+
 signals:
 
     void defaultSoundEnabled();
@@ -153,6 +162,8 @@ private:
     Not used. Would allow getting rid of the default sound if used.
     */
     void initializeAlertSound();
+
+    void initializeTimer(Timer * p_timer);
 
 
 };

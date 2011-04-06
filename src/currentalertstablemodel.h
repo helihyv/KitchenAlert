@@ -35,7 +35,7 @@
 /*! Class that contains the model that holds the timers'
 
   @author Heli Hyvättinen
-  @date 2011-03-29
+  @date 2011-04-05
   @version 0.2.1
 
 Class that contains the model that holds the timers
@@ -84,6 +84,13 @@ public:
       @param index Any cell from the row of the alert is good here.
       */
     bool isThisTimerAlerting(QModelIndex index);
+
+
+    /*! Saves a timer to a file
+      @param index The index of the timer to be saved. Any cell from the row of the timer is good here.
+      @param filename The name of the file to which the timer is to be saved
+    */
+    bool saveTimer(QModelIndex index,QString filename);
 
 
 signals:

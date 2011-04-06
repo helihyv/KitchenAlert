@@ -39,7 +39,7 @@
 /*! The timer class of KitchenAlert'
 
   @author Heli Hyvättinen
-  @date 2011-02-10
+  @date 2011-04-05
   @version 0.2.1
 
 The timer class of KitchenAlert.
@@ -71,6 +71,16 @@ public:
 
     /*! Returns whether the timer is alerting */
     bool isAlerting();
+
+    /*! Saves the timer to a file
+      @param filename The file to which to save.
+    */
+    bool save(QString filename);
+
+    /*! Loads a timer from a file
+      @param filename The file from which to load.
+    */
+    bool load(QString filename);
 
 
 signals:
