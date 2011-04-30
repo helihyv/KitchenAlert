@@ -28,6 +28,7 @@
 #define SELECTSOUNDDIALOG_H
 
 #include <QDialog>
+#include <QMediaPlayer>
 
 namespace Ui {
     class SelectSoundDialog;
@@ -36,8 +37,8 @@ namespace Ui {
 /*! The class for sound selection dialog of KitchenAlert'
 
   @author Heli Hyvättinen
-  @date 2011-03-29
-  @version 0.2.1
+  @date 2011-04-27
+  @version 0.3.0
 
 The class for sound selection dialog in KitchenAlert.
 
@@ -50,14 +51,22 @@ class SelectSoundDialog : public QDialog
 public:
     explicit SelectSoundDialog(QWidget *parent = 0);
     ~SelectSoundDialog();
+
     QString getSoundFileName();
+    /*! returns the filename for custom sound the user has chosen in the dialog */
+
     bool isDefaultSoundChecked();
+    /*! Returns whether "use default sound" was checked by the user in the dialog */
 
 public slots:
     void browse();
+    void testSound();
 
 private:
     Ui::SelectSoundDialog *ui;
+
+    QMediaPlayer player;
+    bool isTesting_;
 };
 
 #endif // SELECTSOUNDDIALOG_H

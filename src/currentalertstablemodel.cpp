@@ -325,3 +325,8 @@ void CurrentAlertsTableModel::removeTimer(QModelIndex index)
 
 }
 
+bool CurrentAlertsTableModel::saveTimer(QModelIndex index, QString filename)
+{
+    return currentTimers_.at(index.row())->save(filename);
+}
+

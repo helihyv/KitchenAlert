@@ -1,7 +1,7 @@
 /**************************************************************************
         KitchenAlert
 
-        Copyright (C) 2010  Heli Hyvättinen
+        Copyright (C) 2010-11  Heli Hyvättinen
 
         This file is part of KitchenAlert.
 

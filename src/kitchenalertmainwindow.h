@@ -40,8 +40,8 @@ namespace Ui {
 /*! The main window class of KitchenAlert'
 
   @author Heli Hyvättinen
-  @date 2011-03-29
-  @version 0.2.1
+  @date 2011-04-26
+  @version 0.3.0
 
 Operates the UI.
 
@@ -50,8 +50,6 @@ Operates the UI.
 class KitchenAlertMainWindow : public QMainWindow
 {
     Q_OBJECT 
-
-
 
 
 public:
@@ -117,6 +115,15 @@ public slots:
        */
     void remove();
 
+    /*! Opens a dialog for saving the selected timer and, if confirmed, saves the timer to a file.
+    */
+    void saveTimer();
+
+    /*! Opens a dialog for reading a timer from a timer file, and if confirmed opens and starts the timer.
+    */
+    void loadTimer();
+
+
 signals:
 
     void defaultSoundEnabled();
@@ -143,6 +150,8 @@ private:
 
     CurrentAlertsTableModel model_; /*! The model that stores the alerts */
 
+   QString defaultSaveDirectory_;
+
     /*!
     Returns a QMoldelIndex pointing to the cell in the column 0 of the row that is currently selected.
     */
@@ -153,6 +162,8 @@ private:
     Not used. Would allow getting rid of the default sound if used.
     */
     void initializeAlertSound();
+
+    void initializeTimer(Timer * p_timer);
 
 
 };

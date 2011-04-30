@@ -27,7 +27,8 @@
 #include <QDebug>
 #include <QSettings>
 
-
+// Initialize static const
+ const QString AlertSound::defaultsound_  = "/home/opt/KitchenAlert/DoorbellModifiedFinal.mp3";
 
 
 
@@ -35,7 +36,7 @@ AlertSound::AlertSound(QObject *parent) :
     QObject(parent)
 {
 
-    defaultsound_ = "/home/opt/KitchenAlert/DoorbellModifiedFinal.mp3";
+
     QString filename;
 
     QSettings settings("KitchenAlert","KitchenAlert");
