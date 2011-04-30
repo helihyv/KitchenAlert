@@ -26,14 +26,18 @@
 
 #include "selectsounddialog.h"
 #include "ui_selectsounddialog.h"
+#include "alertsound.h"
 #include <QFileDialog>
 #include <QSettings>
 #include <QDebug>
+
+
 
 SelectSoundDialog::SelectSoundDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SelectSoundDialog)
 {
+
     ui->setupUi(this);
     connect(ui->browseButton,SIGNAL(clicked()),this,SLOT(browse()));
 
@@ -50,6 +54,11 @@ SelectSoundDialog::SelectSoundDialog(QWidget *parent) :
     }
     else ui->CustomSoundRadioButton->setChecked(true);
 //    qDebug() << "UseDefaultSoundfile is " << useDefaultSoundFile;
+
+
+
+    isTesting_ = false;
+    connect(ui->TestButton,SIGNAL(clicked()),this,SLOT(testSound()));
 }
 
 SelectSoundDialog::~SelectSoundDialog()
@@ -76,4 +85,34 @@ QString SelectSoundDialog::getSoundFileName()
 bool SelectSoundDialog::isDefaultSoundChecked()
 {
     return ui->DefaultSoundRadioButton->isChecked();
+}
+
+void SelectSoundDialog::testSound()
+{
+    if (isTesting_ == false)
+    {
+        if  (ui->CustomSoundRadioButton->isChecked() == false)
+        {
+            player.setMedia(QUrl::fromLocalFile(AlertSound::defaultsound_));
+        }
+
+        else
+        {
+            player.setMedia(QUrl::fromLocalFile(ui->lineEdit->displayText()));
+        }
+
+        player.play();
+
+        ui->TestButton->setText(tr("Stop test"));
+
+        isTesting_ = true;
+    }
+
+    else
+    {
+        player.stop();
+        ui->TestButton->setText(tr("Test sound"));
+        isTesting_ = false;
+    }
+
 }

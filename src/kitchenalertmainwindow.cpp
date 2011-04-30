@@ -51,18 +51,14 @@ KitchenAlertMainWindow::KitchenAlertMainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::KitchenAlertMainWindow)
     {
-    ui->setupUi(this);
 
-    setWindowIcon(QIcon(":/kitchenalert.png"));
+  defaultSaveDirectory_ = "/home/user/MyDocs/KitchenAlert/";
 
+  ui->setupUi(this);
 
-
-
-  connect(ui->CreateNewScheduleButton, SIGNAL (pressed()), this, SLOT (newTimerSequence()));
-
+  setWindowIcon(QIcon(":/kitchenalert.png"));
 
   //alerts' tableview setup
-
 
   ui->ComingAlertsTableView->setModel(&model_);
   ui->ComingAlertsTableView->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -79,19 +75,20 @@ KitchenAlertMainWindow::KitchenAlertMainWindow(QWidget *parent) :
   ui->ComingAlertsTableView->verticalHeader()->setResizeMode(QHeaderView::ResizeToContents);
 
 
-  //Buttons used to reacting an alarm are hidden by default
+  //Buttons used to reacting to an alarm are hidden by default
 
   disableSelectionDependentButtons();
 
 
   connect(ui->ComingAlertsTableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),this,SLOT(timerSelected(QItemSelection,QItemSelection)));
-
+  connect(ui->CreateNewScheduleButton, SIGNAL (clicked()), this, SLOT (newTimerSequence()));
   connect(ui->DoneButton,SIGNAL(clicked()),this,SLOT(stop()));
   connect(ui->RestartButton,SIGNAL(clicked()),this,SLOT(restart()));
   connect(ui->SnoozeButton,SIGNAL(clicked()),this, SLOT(snooze()));
   connect(ui->RemoveButton,SIGNAL(clicked()),this,SLOT(remove()));
   connect(ui->SaveButton,SIGNAL(clicked()),this,SLOT(saveTimer()));
   connect(ui->OpenButton,SIGNAL(clicked()),this,SLOT(loadTimer()));
+
   // menu setup
 
   QAction * p_SelectSoundAction = new QAction(tr("Select alert sound"),this);
@@ -206,6 +203,7 @@ void KitchenAlertMainWindow::timerSelected(QItemSelection selected,QItemSelectio
     ui->DoneButton->setEnabled(true);
     ui->RestartButton->setEnabled(true);
     ui->RemoveButton->setEnabled(true);
+    ui->SaveButton->setEnabled(true);
 
 
     //snooze button enabled only when alerting
@@ -349,6 +347,8 @@ void KitchenAlertMainWindow::disableSelectionDependentButtons()
     ui->SnoozeButton->setDisabled(true);
     ui->RestartButton->setDisabled(true);
     ui->RemoveButton->setDisabled(true);
+    ui->SaveButton->setDisabled(true);
+
 
 }
 
@@ -403,11 +403,11 @@ void KitchenAlertMainWindow::saveTimer()
 
 
     //file name is asked. As the filename will be appended, there's no point in confirming owerwrite here
-    QString filename = QFileDialog::getSaveFileName(this, "", "", "*.kitchenalert",NULL,QFileDialog::DontConfirmOverwrite);
+    QString filename = QFileDialog::getSaveFileName(this, "", defaultSaveDirectory_, "*.kitchenalert",NULL,QFileDialog::DontConfirmOverwrite);
 
-    disableSelectionDependentButtons();
 
-    qDebug() << filename;
+
+//    qDebug() << filename;
 
     if (filename.isEmpty()) //user cancelled the dialog (or gave an empty name)
     {
@@ -420,7 +420,7 @@ void KitchenAlertMainWindow::saveTimer()
 
     }
 
-    qDebug() << "filename appended to " << filename;
+  //  qDebug() << "filename appended to " << filename;
 
 
     //MANUAL CONFIRMATION OF OWERWRITE
@@ -454,7 +454,7 @@ void KitchenAlertMainWindow::saveTimer()
 
 void KitchenAlertMainWindow::loadTimer()
 {
-    QString filename = QFileDialog::getOpenFileName(this,"","",tr("KitchenAlert timer files (*.kitchenalert)"));
+    QString filename = QFileDialog::getOpenFileName(this,"",defaultSaveDirectory_,tr("KitchenAlert timer files (*.kitchenalert)"));
     if (!filename.isEmpty())
     {
 

@@ -35,8 +35,8 @@
 /*! Class for playing the alert sound'
 
   @author Heli Hyvättinen
-  @date 2011-03-29
-  @version 0.2.1
+  @date 2011-04-26
+  @version 0.3.0
 
 Class for playing (and stopping) the alert sound.
 
@@ -49,6 +49,8 @@ public:
     explicit AlertSound(QObject *parent = 0);
 
     virtual ~AlertSound();
+
+    static const QString defaultsound_ ; /*! the name (with full path) of the default sound file  */
 
 signals:
 
@@ -69,10 +71,12 @@ private:
 
 
 
-   QMediaPlayer *pSound_;
-   QString defaultsound_;
+   QMediaPlayer *pSound_; /*! The media player used to play the sound */
+
 
 
 };
+
+
 
 #endif // ALERTSOUND_H
