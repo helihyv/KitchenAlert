@@ -45,14 +45,13 @@
 #include <QSettings>
 #include <QFileDialog>
 
+  const QString defaultSaveDirectory_ = "/home/user/MyDocs/KitchenAlert/";
 
 
 KitchenAlertMainWindow::KitchenAlertMainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::KitchenAlertMainWindow)
     {
-
-  defaultSaveDirectory_ = "/home/user/MyDocs/KitchenAlert/";
 
   ui->setupUi(this);
 
@@ -388,9 +387,12 @@ void KitchenAlertMainWindow::remove()
         if (QMessageBox::question(this,tr("Confirm timer removal"),text,QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
         {
             model_.removeTimer(row);
+            ui->ComingAlertsTableView->clearSelection();
+            disableSelectionDependentButtons();
+
         }
     }
-    ui->SnoozeButton->setDisabled(true);
+
 }
 
 void KitchenAlertMainWindow::saveTimer()
