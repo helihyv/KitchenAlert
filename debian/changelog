@@ -1,3 +1,11 @@
+kitchenalert (0.3.0-1) unstable; urgency=low
+
+  * a timer can now be saved to a file and loaded from it
+  * when removing a timer from the list, the selection is cleared ("restart" and "stop" buttons no longer active after last alert has been removed)
+  * "new timer" button now reacts to "clicking" (pressing and releasing) instead of just pressing for consistency with other buttons    
+
+ -- Heli Hyvättinen <heli.hyvattinen@kymp.net>  Mon,  9 May 2011 16:40:44 +0300
+
 kitchenalert (0.2.1-1) unstable; urgency=low
 
   * restored the ability to change the alert sound when there are no alerts in the list (closes #6857)

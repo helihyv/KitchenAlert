@@ -45,13 +45,15 @@
 #include <QSettings>
 #include <QFileDialog>
 
-  const QString defaultSaveDirectory_ = "/home/user/MyDocs/KitchenAlert/";
+
 
 
 KitchenAlertMainWindow::KitchenAlertMainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::KitchenAlertMainWindow)
     {
+      
+  defaultSaveDirectory_ = "/home/user/KitchenAlert";    
 
   ui->setupUi(this);
 
