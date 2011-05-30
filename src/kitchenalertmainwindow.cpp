@@ -458,7 +458,26 @@ void KitchenAlertMainWindow::saveTimer()
 
 void KitchenAlertMainWindow::loadTimer()
 {
-    QString filename = QFileDialog::getOpenFileName(this,"",defaultSaveDirectory_,tr("KitchenAlert timer files (*.kitchenalert)"));
+
+// If the default save directory does not exist use /home/user instead (as that's what the save dialog will use)
+// This avoids a situation where save directs to a folder that cannot be accessed with open...
+
+    QString startDirectory;
+
+    if (QFile(defaultSaveDirectory_).exists())
+    {
+        startDirectory = defaultSaveDirectory_;
+    }
+    else
+    {
+        startDirectory = "/home/user/";
+        qDebug () << "default save directory not found";
+    }
+
+
+ //Get the filename to open with a dialog
+
+    QString filename = QFileDialog::getOpenFileName(this,"",startDirectory,tr("KitchenAlert timer files (*.kitchenalert)"));
     if (!filename.isEmpty())
     {
 

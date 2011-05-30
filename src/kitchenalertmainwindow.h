@@ -150,7 +150,7 @@ private:
 
     CurrentAlertsTableModel model_; /*! The model that stores the alerts */
 
-    const QString defaultSaveDirectory_;
+    QString defaultSaveDirectory_;
 
     /*!
     Returns a QMoldelIndex pointing to the cell in the column 0 of the row that is currently selected.
