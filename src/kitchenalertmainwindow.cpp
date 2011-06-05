@@ -53,7 +53,7 @@ KitchenAlertMainWindow::KitchenAlertMainWindow(QWidget *parent) :
     ui(new Ui::KitchenAlertMainWindow)
     {
       
-  defaultSaveDirectory_ = "/home/user/KitchenAlert";    
+  defaultSaveDirectory_ = "/home/user/MyDocs/KitchenAlert";
 
   ui->setupUi(this);
 
@@ -405,9 +405,23 @@ void KitchenAlertMainWindow::saveTimer()
     if (row.isValid() == false) //If there was no row selected invalid row was returned
         return;
 
+    //For consistency with loading, opens MyDocs if default directory has been removed
+
+    QString startDirectory;
+
+    if (QFile(defaultSaveDirectory_).exists())
+    {
+        startDirectory = defaultSaveDirectory_;
+    }
+    else
+    {
+        startDirectory = "/home/user/MyDocs";
+        qDebug () << "default save directory not found";
+    }
+
 
     //file name is asked. As the filename will be appended, there's no point in confirming owerwrite here
-    QString filename = QFileDialog::getSaveFileName(this, "", defaultSaveDirectory_, "*.kitchenalert",NULL,QFileDialog::DontConfirmOverwrite);
+    QString filename = QFileDialog::getSaveFileName(this, "", startDirectory, "*.kitchenalert",NULL,QFileDialog::DontConfirmOverwrite);
 
 
 
@@ -459,25 +473,11 @@ void KitchenAlertMainWindow::saveTimer()
 void KitchenAlertMainWindow::loadTimer()
 {
 
-// If the default save directory does not exist use /home/user instead (as that's what the save dialog will use)
-// This avoids a situation where save directs to a folder that cannot be accessed with open...
-
-    QString startDirectory;
-
-    if (QFile(defaultSaveDirectory_).exists())
-    {
-        startDirectory = defaultSaveDirectory_;
-    }
-    else
-    {
-        startDirectory = "/home/user/";
-        qDebug () << "default save directory not found";
-    }
 
 
  //Get the filename to open with a dialog
 
-    QString filename = QFileDialog::getOpenFileName(this,"",startDirectory,tr("KitchenAlert timer files (*.kitchenalert)"));
+    QString filename = QFileDialog::getOpenFileName(this,"",defaultSaveDirectory_,tr("KitchenAlert timer files (*.kitchenalert)"));
     if (!filename.isEmpty())
     {
 

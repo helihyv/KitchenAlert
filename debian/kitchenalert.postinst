@@ -34,10 +34,6 @@ group	= alarm" >> /usr/share/policy/etc/current/pulse/xpolicy.conf
 stop pulseaudio
 start pulseaudio
 
-# give the default save directory to user "user" so it can be written to from the application 
-# (autocreating with kitchenalert.dirs gives it to root with no access rights to user)
-chown user /home/user/KitchenAlert
-
 fi
 
 exit 0
