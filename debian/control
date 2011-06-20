@@ -20,8 +20,8 @@ XB-Maemo-Upgrade-Description: Timer application with multiple timers
  KitchenAlert is a timer application targeted especially to use in baking and cooking. Supports running multiple timers simultaneously.
  NOTE: Does not alert during phone calls. Obeys the volume setting of the device. Testing the needed volume in the location the device will be kept is highly recommended before using the application for a real alert.
  Pulseaudio (i.e. the sound system) will be restarted during the install.
- New in this version:
- Bugfix: restored the ability to change the alert sound when there are no alerts in the list  
+ New in version 0.3.0:
+ Saving and loading of alerts
 XB-Maemo-Display-Name: KitchenAlert
 XB-Maemo-Icon-26:
  iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c

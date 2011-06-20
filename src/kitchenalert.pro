@@ -55,3 +55,15 @@ unix:!symbian {
     }
     INSTALLS += target
 }
+
+maemo5 {
+    desktopfile.files = $${TARGET}.desktop
+    desktopfile.path = /usr/share/applications/hildon
+    INSTALLS += desktopfile
+}
+
+maemo5 {
+    desktopfile.files = $${TARGET}.desktop
+    desktopfile.path = /usr/share/applications/hildon
+    INSTALLS += desktopfile
+}
