@@ -205,6 +205,9 @@ bool Timer::load(QString filename)
 
     _alertText = reader.attributes().value("alert_text").toString();
     _originalTime = reader.attributes().value("time_in_seconds").toString().toInt();
+
+    filenameWithPath_ = filename;
+
     return true;
 }
 

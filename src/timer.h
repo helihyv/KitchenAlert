@@ -121,9 +121,13 @@ private:
     QTimer _actualTimer;
     bool alerting_;
 
+    QString filenameWithPath_; /*! Name (with full path) of the file where the timer was loaded from. Empty if timer not loaded from file. */
+
     QModelIndex whereAmI();
 
     AlertSound alertSound_;
+
+
 
 };
 
