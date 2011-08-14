@@ -5,6 +5,12 @@ kitchenalert (0.4.0) unstable; urgency=low
 
  -- Heli Hyvättinen <heli.hyvattinen@kymp.net>  Sun, 14 Aug 2011 15:13:00 +0300
 
+kitchenalert (0.3.0-2) unstable; urgency=low
+
+  * just corrected the info shown in application manger when upgrading from older version
+
+ -- Heli Hyvättinen <heli.hyvattinen@kymp.net>  Sun, 19 Jun 2011 17:52:32 +0300
+
 kitchenalert (0.3.0-1) unstable; urgency=low
 
   * a timer can now be saved to a file and loaded from it
