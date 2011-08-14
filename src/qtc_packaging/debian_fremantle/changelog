@@ -1,0 +1,47 @@
+kitchenalert (0.4.0) unstable; urgency=low
+
+  * added possibility to set "sticky" timers that are loaded at startup
+  * stopped (and never started) timers now show their full time and "stopped" instead of 00:00:00
+
+ -- Heli Hyvättinen <heli.hyvattinen@kymp.net>  Sun, 14 Aug 2011 15:13:00 +0300
+
+kitchenalert (0.3.0-1) unstable; urgency=low
+
+  * a timer can now be saved to a file and loaded from it
+  * when removing a timer from the list, the selection is cleared ("restart" and "stop" buttons no longer active after last alert has been removed)
+  * "new timer" button now reacts to "clicking" (pressing and releasing) instead of just pressing for consistency with other buttons
+
+ -- Heli Hyvättinen <heli.hyvattinen@kymp.net>  Mon,  9 May 2011 16:40:44 +0300
+
+kitchenalert (0.2.1-1) unstable; urgency=low
+
+  * restored the ability to change the alert sound when there are no alerts in the list (closes #6857)
+  * uses QtMultimedia instead of Phonon (this time for real)
+
+ -- Heli Hyvättinen <heli.hyvattinen@kymp.net>  Tue, 29 Mar 2011 21:09:03 +0300
+
+kitchenalert (0.2.0-1) unstable; urgency=low
+
+  * finger-friendlier alert list
+  * long alert texts now split to multiple lines (no more horizontal scrolling)
+  * the system now treats the alert sound as an "alarm" and thus should no longer block it if MediaPlayer is playing (fixes #6807) (pulseaudio is restarted during installation for this to take effect)
+  * stopping one timer no longer silences all timers if more than one is playing the alert sound
+  * timers can now be removed from the list
+  * a new default sound
+  * alert sound no longer jams when several timers alert close to each other (fixes #6381)
+  * selection no longer lost when re-entering the app (fixes #6346)
+  * "done" button renamed to "stop"
+  * the view now scrolls to the alerting timer
+  * a new icon
+  * uses QtMultimedia instead of Phonon
+  * a decent copyright file included
+  * no longer installs useless doc files
+
+
+ -- Heli Hyvättinen <heli.hyvattinen@kymp.net>  Thu, 24 March 2011 21:28:00 +0300
+
+kitchenalert (0.1-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Heli Hyvättinen <heli.hyvattinen@kymp.net>  Tue, 20 Jul 2010 07:28:36 +0300

@@ -58,6 +58,27 @@ unix:!symbian {
     INSTALLS += target
 }
 
+
+maemo5 {
+
+
+    sound.files = data/DoorbellModifiedFinal.mp3
+    sound.path = /home/opt/KitchenAlert
+    INSTALLS += sound
+}
+
+OTHER_FILES += \
+    qtc_packaging/debian_fremantle/README \
+    qtc_packaging/debian_fremantle/kitchenalert.postrm \
+    qtc_packaging/debian_fremantle/kitchenalert.postinst \
+    qtc_packaging/debian_fremantle/kitchenalert.dirs \
+    qtc_packaging/debian_fremantle/copyright \
+    qtc_packaging/debian_fremantle/control \
+    qtc_packaging/debian_fremantle/compat \
+    qtc_packaging/debian_fremantle/changelog \
+    qtc_packaging/debian_fremantle/rules \
+    kitchenalert.png
+
 maemo5 {
     desktopfile.files = $${TARGET}.desktop
     desktopfile.path = /usr/share/applications/hildon
@@ -65,9 +86,9 @@ maemo5 {
 }
 
 maemo5 {
-    desktopfile.files = $${TARGET}.desktop
-    desktopfile.path = /usr/share/applications/hildon
-    INSTALLS += desktopfile
+    icon.files = kitchenalert.png
+    icon.path = /usr/share/icons/hicolor/64x64/apps
+    INSTALLS += icon
 }
 
 OTHER_FILES += \
