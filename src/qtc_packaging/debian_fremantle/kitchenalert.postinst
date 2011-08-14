@@ -1,0 +1,44 @@
+#! /bin/sh
+
+set -e
+
+gtk-update-icon-cache /usr/share/icons/hicolor
+
+#check whether the needed sound systen settings are already in place
+
+if ! grep -q KitchenAlert /usr/share/policy/etc/current/pulse/xpolicy.conf
+
+then
+
+#checks whether there is a newline at the end of the file and adds one if there is not and then
+#checks if there is an ampty line at the end of the file and add one if there is not
+
+perl -e 'use strict;' \
+-e 'use warnings;' \
+-e 'open(my $in,  "<",  "/usr/share/policy/etc/current/pulse/xpolicy.conf")  or die "Cannot open /usr/share/policy/etc/current/pulse/xpolicy.conf: $!";' \
+-e 'my @lines = <$in>;' \
+-e 'my $lastlineishere = $#lines;' \
+-e 'my $lastline = $lines[$lastlineishere];' \
+-e 'unless ($lastline =~ /\n$/){open(my $log, ">>", "/usr/share/policy/etc/current/pulse/xpolicy.conf") or die "Cannot open /usr/share/policy/etc/current/pulse/xpolicy.conf: $!"; print $log "\n"; }' \
+-e 'unless ($lastline =~ /^\n$/){open(my $log, ">>", "/usr/share/policy/etc/current/pulse/xpolicy.conf") or die "Cannot open /usr/share/policy/etc/current/pulse/xpolicy.conf: $!"; print $log "\n"; }'
+
+#writes the sound system settings needed
+
+echo -e "[stream]\n\
+exe	= KitchenAlert\n\
+group	= alarm" >> /usr/share/policy/etc/current/pulse/xpolicy.conf
+
+#restarts the pulseaudio so that the above changed settings take effect
+#this interrupts all playing sounds (they do not resume play at restart)
+ 
+stop pulseaudio
+start pulseaudio
+
+# give the default save directory to user "user" so it can be written to from the application 
+# (autocreating with kitchenalert.dirs gives it to root with no access rights to user)
+chown user /home/user/KitchenAlert
+
+fi
+
+exit 0
+ 

@@ -1,0 +1,34 @@
+#! /bin/sh
+
+set -e
+
+#This checks whether there is a newline at the end of the file and adds one if there was not.
+#Needed because sed deletes the last line if it does not end with a newline 
+
+perl -e 'use strict;' \
+-e 'use warnings;' \
+-e 'open(my $in,  "<",  "/usr/share/policy/etc/current/pulse/xpolicy.conf")  or die "Cannot open /usr/share/policy/etc/current/pulse/xpolicy.conf: $!";' \
+-e 'my @lines = <$in>;' \
+-e 'my $lastlineishere = $#lines;' \
+-e 'my $lastline = $lines[$lastlineishere];' \
+-e 'unless ($lastline =~ /\n$/){open(my $log, ">>", "/usr/share/policy/etc/current/pulse/xpolicy.conf") or die "Cannot open /usr/share/policy/etc/current/pulse/xpolicy.conf: $!"; print $log "\n"; }'
+ 
+#This removes three subsequent lines from xpolicy.conf if they all match (the lines added by the postinstall script)
+
+sed -i '
+/'[stream]'/ {
+#append a line
+N
+#search for KitchenAlert on the second line
+/\nexe\t= KitchenAlert/ {
+N
+#searh next line
+/\ngroup\t= alarm/ {
+
+#s/'[stream]'.*alarm//
+d
+}}}' /usr/share/policy/etc/current/pulse/xpolicy.conf 
+
+exit 0
+
+
