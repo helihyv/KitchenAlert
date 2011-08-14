@@ -113,15 +113,26 @@ QVariant CurrentAlertsTableModel::data(const QModelIndex &index, int role) const
                 case timeRemainingColumnNumber_:
 
 
+                    if (currentTimers_.at(index.row())->isRunning()) //timer running
+                    {
+
 
                     allseconds = currentTimers_.at(index.row())->getRemainingTimeInSeconds();
 
 
-                    if (allseconds < 0)
-                    {
-                        timeAsText = tr("-", "negative sign");
-                        allseconds = -allseconds;
+                        if (allseconds < 0)
+                        {
+                            timeAsText = tr("-", "negative sign");
+                            allseconds = -allseconds;
 
+                        }
+                    }
+
+                    else //timer stopped or never started
+
+                    {
+                        //use original time
+                        allseconds = currentTimers_.at(index.row())->getOriginalTimeInSeconds();
                     }
 
                     hoursOnly.setNum( allseconds/(60*60));
@@ -146,7 +157,10 @@ QVariant CurrentAlertsTableModel::data(const QModelIndex &index, int role) const
                 case statusColumnNumber_:
 
                     if (currentTimers_.at(index.row())->isAlerting() == true)
-                        return QString("ALERT!");
+                        return tr("ALERT!");
+
+                    if (!currentTimers_.at(index.row())->isRunning())
+                        return tr("stopped");
 
                     else return QString();
 

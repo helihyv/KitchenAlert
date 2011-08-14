@@ -213,9 +213,9 @@ bool Timer::load(QString filename)
     return true;
 }
 
-//QString Timer::getFilename()
-//{
-//    return filenameWithPath_;
-//}
+bool Timer::isRunning()
+{
+    return _actualTimer.isActive();
+}
 
 
