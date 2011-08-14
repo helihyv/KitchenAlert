@@ -123,6 +123,8 @@ public slots:
     */
     void loadTimer();
 
+    /*! Opens a dialog for choosing which timers to preload at start */
+    void openStickyDialog();
 
 signals:
 
@@ -144,6 +146,10 @@ protected:
     */
     void disableSelectionDependentButtons();
 
+    bool loadStickies();
+
+
+
 private:
 
     Ui::KitchenAlertMainWindow *ui;
@@ -163,9 +169,10 @@ private:
     */
     void initializeAlertSound();
 
-    void initializeTimer(Timer * p_timer);
+    void initializeTimer(Timer * p_timer, bool startImmediately = true);
 
-
+    //Adds the timer to the model and optionally starts it on success, gives an error message on failure
+    bool loadTimer(QString filename, bool startImmediately);
 };
 
 #endif // KITCHENALERTMAINWINDOW_H

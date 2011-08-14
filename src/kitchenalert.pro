@@ -18,14 +18,16 @@ SOURCES += main.cpp\
     timer.cpp \
     currentalertstablemodel.cpp \
     alertsound.cpp \
-    selectsounddialog.cpp
+    selectsounddialog.cpp \
+    stickydialog.cpp
 
 HEADERS  += kitchenalertmainwindow.h \
     createtimersequencedialog.h \
     timer.h \
     currentalertstablemodel.h \
     alertsound.h \
-    selectsounddialog.h
+    selectsounddialog.h \
+    stickydialog.h
 
 FORMS    += kitchenalertmainwindow.ui \
     createtimersequencedialog.ui \
@@ -67,3 +69,11 @@ maemo5 {
     desktopfile.path = /usr/share/applications/hildon
     INSTALLS += desktopfile
 }
+
+OTHER_FILES += \
+    qtc_packaging/debian_fremantle/rules \
+    qtc_packaging/debian_fremantle/README \
+    qtc_packaging/debian_fremantle/copyright \
+    qtc_packaging/debian_fremantle/control \
+    qtc_packaging/debian_fremantle/compat \
+    qtc_packaging/debian_fremantle/changelog
