@@ -35,8 +35,6 @@
 #include "createtimersequencedialog.h"
 #include "selectsounddialog.h"
 
-
-
 #include <QDebug>
 
 #include <QAction>
@@ -45,7 +43,9 @@
 #include <QSettings>
 #include <QFileDialog>
 
-
+#include <QStringListModel>
+#include <QListView>
+#include "stickydialog.h"
 
 
 KitchenAlertMainWindow::KitchenAlertMainWindow(QWidget *parent) :
@@ -99,6 +99,13 @@ KitchenAlertMainWindow::KitchenAlertMainWindow(QWidget *parent) :
   QAction * p_AboutAction = new QAction(tr("About"),this);
   connect(p_AboutAction,SIGNAL(triggered()),this,SLOT(openAbout()));
   menuBar()->addAction(p_AboutAction);
+
+  QAction * p_StickyAction = new QAction(tr("Edit sticky timers"),this);
+  connect(p_StickyAction, SIGNAL(triggered()),this,SLOT(openStickyDialog()));
+  menuBar()->addAction(p_StickyAction);
+
+  loadStickies();
+
     }
 
 KitchenAlertMainWindow::~KitchenAlertMainWindow()
@@ -486,22 +493,12 @@ void KitchenAlertMainWindow::loadTimer()
 //            filename.append(".kitchenalert");
 //        }
 
-        QString errorTitle(tr("Failed to load file "));
-        errorTitle.append(filename);
+        loadTimer(filename,true); //timer gets started
 
-        Timer * p_timer = new Timer();
-        if (!p_timer->load(filename))
-        {
-            QMessageBox::critical(this,errorTitle,tr("Unable to open file or not a valid KitchenAlert timer file."));
-            delete p_timer;
-            return;
-        }
-
-        initializeTimer(p_timer);
     }
 }
 
-void KitchenAlertMainWindow::initializeTimer(Timer *p_timer)
+void KitchenAlertMainWindow::initializeTimer(Timer *p_timer, bool startImmediately)
 {
 
 //connect alert
@@ -526,9 +523,53 @@ disableSelectionDependentButtons();
 QList<Timer *> timerList;
 
 timerList.append(p_timer);
-model_.addTimers(timerList,true); //timer gets started in the model
+model_.addTimers(timerList,startImmediately); //timer gets started in the model if startImmediately is true (default)
 
 }
 
+void KitchenAlertMainWindow::openStickyDialog()
+{
+    StickyDialog stickyDialog(defaultSaveDirectory_);
 
 
+    if (stickyDialog.exec()== QDialog::Accepted)
+    {
+        QSettings settings;
+        settings.setValue("sticky",stickyDialog.getStickyList());
+    }
+}
+
+bool KitchenAlertMainWindow::loadStickies()
+{
+    bool allSuccess = true;
+
+    QSettings settings;
+
+    QStringList stickies = settings.value("sticky").toStringList();
+
+
+    foreach (QString stickyFileName, stickies)
+    {
+       if (!loadTimer(stickyFileName,false)) //initializes the timer without starting it
+            allSuccess = false;
+    }
+
+    return allSuccess;
+}
+
+bool KitchenAlertMainWindow::loadTimer(QString filename, bool startImmediately)
+{
+    QString errorTitle(tr("Failed to load file "));
+    errorTitle.append(filename);
+
+    Timer * p_timer = new Timer();
+    if (!p_timer->load(filename))
+    {
+        QMessageBox::critical(this,errorTitle,tr("Unable to open file or not a valid KitchenAlert timer file."));
+        delete p_timer;
+        return false;
+    }
+
+    initializeTimer(p_timer,startImmediately);
+    return true;
+}

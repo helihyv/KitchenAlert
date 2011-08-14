@@ -82,6 +82,10 @@ public:
     */
     bool load(QString filename);
 
+    /*! Returns wheter the alert is running or not.
+      Alerting timers are considered running. */
+    bool isRunning();
+
 
 signals:
     /*! Emitted when the remaining time in the timer has changed */
@@ -126,6 +130,8 @@ private:
     QModelIndex whereAmI();
 
     AlertSound alertSound_;
+
+
 
 
 

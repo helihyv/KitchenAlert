@@ -39,6 +39,8 @@ Timer::Timer(QObject *parent) :
     connect(&_actualTimer, SIGNAL(timeout()), this, SLOT(secondPassed()));
 
     alerting_ = false;
+
+    _remainingTime = 0; //Same as when stopped
 }
 
 
@@ -211,9 +213,9 @@ bool Timer::load(QString filename)
     return true;
 }
 
-QString Timer::getFilename()
+bool Timer::isRunning()
 {
-    return filenameWithPath_;
+    return _actualTimer.isActive();
 }
 
 
