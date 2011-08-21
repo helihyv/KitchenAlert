@@ -126,6 +126,9 @@ public slots:
     /*! Opens a dialog for choosing which timers to preload at start */
     void openStickyDialog();
 
+   /*! Loads the sticky timers. */
+    bool loadStickies();
+
 signals:
 
     void defaultSoundEnabled();
@@ -146,7 +149,7 @@ protected:
     */
     void disableSelectionDependentButtons();
 
-    bool loadStickies();
+
 
 
 

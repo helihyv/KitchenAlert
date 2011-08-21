@@ -104,7 +104,7 @@ KitchenAlertMainWindow::KitchenAlertMainWindow(QWidget *parent) :
   connect(p_StickyAction, SIGNAL(triggered()),this,SLOT(openStickyDialog()));
   menuBar()->addAction(p_StickyAction);
 
-  loadStickies();
+  QTimer::singleShot(0,this,SLOT(loadStickies())); //Load sticky timers after construction to speed the application showing up
 
     }
 
