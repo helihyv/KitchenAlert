@@ -3,7 +3,7 @@ kitchenalert (0.4.0) unstable; urgency=low
   * added possibility to set "sticky" timers that are loaded at startup
   * stopped (and never started) timers now show their full time and "stopped" instead of 00:00:00
 
- -- Heli Hyvättinen <heli.hyvattinen@kymp.net>  Sun, 14 Aug 2011 15:13:00 +0300
+ -- Heli Hyvättinen <heli.hyvattinen@kymp.net>  Sun, 28 Aug 2011 20:03:00 +0300
 
 kitchenalert (0.3.0-2) unstable; urgency=low
 

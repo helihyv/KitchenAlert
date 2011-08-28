@@ -40,8 +40,8 @@ namespace Ui {
 /*! The main window class of KitchenAlert'
 
   @author Heli Hyvättinen
-  @date 2011-01-05
-  @version 0.3.0
+  @date 2011-08-21
+  @version 0.4.0
 
 Operates the UI.
 
