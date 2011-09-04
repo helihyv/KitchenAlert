@@ -37,8 +37,9 @@ clean:
 	dh_testroot
 	rm -f build-stamp configure-stamp
 
-	# Add here commands to clean up after the build process.
-	$(MAKE) clean
+        # Add here commands to clean up after the build process.
+        # added '-' so that it won't fail when run on packaging wizard
+	-$(MAKE) clean
 
 	dh_clean 
 
