@@ -493,7 +493,7 @@ void KitchenAlertMainWindow::loadTimer()
 //            filename.append(".kitchenalert");
 //        }
 
-        loadTimer(filename,true); //timer gets started
+        loadTimer(filename,false); //timer gets started
 
     }
 }
